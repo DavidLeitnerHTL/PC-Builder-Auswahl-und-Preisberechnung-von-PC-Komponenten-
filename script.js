@@ -1,78 +1,53 @@
 /**
  * KONFIGURATION
- * WICHTIG: Wenn du die Seite lokal auf deinem PC nutzt, musst du hier
- * deinen eigenen Google Gemini API Key zwischen die Anführungszeichen setzen.
- * Beispiel: const apiKey = "AIzaSy...";
  */
 const apiKey = "AIzaSyDhsBHrpDgfGze7Pw3MYL_QVIRRiNPSJTs"; 
 
 /**
  * FUNKTION: update(select)
- * Wird aufgerufen, sobald der Benutzer im Dropdown etwas ändert.
  */
 function update(select) {
-  // 1. Wert auslesen: Der Value im HTML ist z.B. "99.00,https://..."
   const value = select.value;
-  
-  // Sicherheitscheck: Wenn kein Komma da ist, abbrechen
   if (!value.includes(',')) return;
   
-  // 2. Zerlegen: Wir trennen den String am Komma
   const parts = value.split(',');
-  const preis = parts[0];                // Der Teil vor dem Komma
-  const link = parts.slice(1).join(','); // Der Teil nach dem Komma (Link)
+  const rawPrice = parseFloat(parts[0]);
+  const preis = isNaN(rawPrice) ? "0.00" : rawPrice.toFixed(2);
+  const link = parts.slice(1).join(','); 
 
-  // 3. Zeile finden: Wir suchen das übergeordnete <tr> Element (Tabellenzeile)
   const row = select.closest('tr');
-
-  // 4. Preis-Feld updaten: Wir suchen das Input-Feld in dieser Zeile
   const priceInput = row.querySelector('.price-input');
   if (priceInput) priceInput.value = preis;
 
-  // 5. Link-Button updaten: Wir suchen den <a> Tag
   const linkButton = row.querySelector('a');
   if (linkButton) linkButton.href = link;
 
-  // 6. Gesamtpreis neu berechnen
   calcTotal();
 }
 
-/**
- * FUNKTION: calcTotal()
- * Geht durch alle Zeilen, sammelt die Preise ein und zeigt die Summe an.
- */
 function calcTotal() {
   let sum = 0;
-
-  // Wir suchen alle Zeilen im Tabellen-Körper (tbody)
   document.querySelectorAll("tbody tr").forEach(row => {
-    // In jeder Zeile suchen wir das Preis-Input
     const preisEl = row.querySelector('.price-input');
-    
     if(preisEl) {
-        // parseFloat macht aus dem Text "99.00" eine echte Zahl 99.00
         const preis = parseFloat(preisEl.value) || 0;
         sum += preis;
     }
   });
   
-  // Ergebnis anzeigen
   const totalEl = document.getElementById("total");
-  
   if(totalEl) {
-      // Animation neu anstoßen
       if(totalEl.parentElement) {
           totalEl.parentElement.classList.remove('price-update-anim');
-          void totalEl.offsetWidth; // Trigger Reflow
+          void totalEl.offsetWidth; 
           totalEl.parentElement.classList.add('price-update-anim');
       }
-      // Preis auf 2 Nachkommastellen formatieren
       totalEl.textContent = sum.toFixed(2);
   }
 }
 
 // ==========================================
-// AI LOGIK (Gemini API Integration)
+// AI LOGIK
 // ==========================================
 
 function getSelectedComponents() {
@@ -90,19 +65,24 @@ function getSelectedComponents() {
 
 function toggleLoading(show) {
     const loadingEl = document.getElementById('ai-loading');
-    const outputEl = document.getElementById('ai-output');
+    const resultWrapper = document.getElementById('ai-result-wrapper');
     
     if(loadingEl) loadingEl.style.display = show ? 'flex' : 'none';
-    if(outputEl) outputEl.style.display = show ? 'none' : 'block';
+    
+    // Wenn Resultat gezeigt wird, blende Wrapper ein (default hidden)
+    if(resultWrapper && !show) {
+        resultWrapper.style.display = 'block';
+    }
+    // Wenn geladen wird, Wrapper ausblenden (damit alte Antworten verschwinden)
+    if(resultWrapper && show) {
+        resultWrapper.style.display = 'none';
+        // Reset expanded state bei neuer Suche
+        resultWrapper.classList.remove('expanded');
+        resetButtons(false);
+    }
 }
 
 async function callGemini(prompt) {
-    // Prüfen ob API Key vorhanden ist (wichtig für lokale Ausführung)
-    if (!apiKey || apiKey === "") {
-        console.warn("API Key fehlt! Bitte in script.js eintragen.");
-        // Wir versuchen es trotzdem, falls er injected wurde, aber geben Warnung aus
-    }
-
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
     
     const payload = {
@@ -125,13 +105,39 @@ async function callGemini(prompt) {
             return data.candidates[0].content.parts[0].text;
         } catch (error) {
             console.error(error);
-            if (i === delays.length) return "⚠️ Fehler: Die AI antwortet nicht. Bitte prüfe deinen API-Key in der Datei script.js oder versuche es später erneut.";
+            if (i === delays.length) return "⚠️ Fehler: Die AI konnte nicht antworten. Überprüfe deine Internetverbindung.";
             await new Promise(resolve => setTimeout(resolve, delays[i]));
         }
     }
 }
 
-// === Event Listener ===
+// === Event Listener für UI ===
+
+const btnResize = document.getElementById('btn-resize-ai');
+const btnClose = document.getElementById('btn-close-expanded');
+const wrapper = document.getElementById('ai-result-wrapper');
+
+function toggleExpandedView() {
+    if(!wrapper) return;
+    
+    wrapper.classList.toggle('expanded');
+    const isExpanded = wrapper.classList.contains('expanded');
+    resetButtons(isExpanded);
+}
+
+function resetButtons(isExpanded) {
+    if(isExpanded) {
+        if(btnResize) btnResize.style.display = 'none';
+        if(btnClose) btnClose.style.display = 'inline-block';
+    } else {
+        if(btnResize) btnResize.style.display = 'inline-block';
+        if(btnClose) btnClose.style.display = 'none';
+    }
+}
+
+if(btnResize) btnResize.addEventListener('click', toggleExpandedView);
+if(btnClose) btnClose.addEventListener('click', toggleExpandedView);
+
 
 // 1. Button: Systemprüfung
 const btnCheck = document.getElementById('btn-check-build');
@@ -147,7 +153,7 @@ if(btnCheck) {
         Konfiguration:
         ${components}
         
-        Antworte auf Deutsch, kurz, prägnant und hilfreich in Markdown Formatierung.`;
+        Antworte auf Deutsch. Fasse dich extrem kurz und prägnant. Nutze Stichpunkte. Antworte in Markdown Formatierung.`;
 
         toggleLoading(true);
         const result = await callGemini(prompt);
@@ -157,9 +163,8 @@ if(btnCheck) {
         if(typeof marked !== 'undefined') {
             outputBox.innerHTML = marked.parse(result);
         } else {
-            outputBox.innerHTML = result; // Fallback falls marked.js fehlt
+            outputBox.innerHTML = result;
         }
-        outputBox.style.display = 'block';
     });
 }
 
@@ -179,7 +184,7 @@ if(btnAsk) {
         
         Frage des Nutzers: "${question}"
         
-        Antworte spezifisch basierend auf der Hardware oben. Antworte auf Deutsch.`;
+        Antworte spezifisch basierend auf der Hardware oben. Antworte auf Deutsch. Fasse dich sehr kurz (max 3-4 Sätze).`;
 
         toggleLoading(true);
         const result = await callGemini(prompt);
@@ -191,11 +196,9 @@ if(btnAsk) {
         } else {
             outputBox.innerHTML = result;
         }
-        outputBox.style.display = 'block';
     });
 }
 
-// Start: Einmal rechnen, wenn die Seite geladen ist
 document.addEventListener("DOMContentLoaded", () => {
   calcTotal();
 });

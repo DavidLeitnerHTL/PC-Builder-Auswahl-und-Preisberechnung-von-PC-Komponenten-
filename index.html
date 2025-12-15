@@ -5,32 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PC-Konfigurator AI-Powered</title>
   
-  <!-- Bootstrap 5 CSS (Framework für Layout) -->
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Google Fonts (Schriftarten) -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <!-- Unser eigenes Stylesheet -->
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
+  <!-- === HEADER === -->
   <header>
     <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-          <span style="font-size: 2rem; margin-right: 15px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">🚀</span> 
-          PC-Konfigurator
+      <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+        <a class="navbar-brand d-flex flex-column" href="#">
+          <div class="d-flex align-items-center">
+            <span style="font-size: 2.2rem; margin-right: 15px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">🚀</span> 
+            <span class="fw-bold" style="font-size: 1.8rem; letter-spacing: -0.5px;">PC-Konfigurator</span>
+          </div>
+          <span class="text-white-50 small ms-5 ps-2" style="margin-top: -5px;">AI-Powered Hardware Builder v2.1</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
+        
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="nav nav-pills ms-auto gap-2" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active px-4 py-2" id="builder-tab" data-bs-toggle="tab" data-bs-target="#builder-content" type="button" role="tab">🛠 Konfigurator</button>
+              <button class="nav-link active px-4 py-2 fw-semibold" id="builder-tab" data-bs-toggle="tab" data-bs-target="#builder-content" type="button" role="tab">
+                🛠 Konfigurator
+              </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link px-4 py-2" id="theory-tab" data-bs-toggle="tab" data-bs-target="#theory-content" type="button" role="tab">📚 Experten-Wissen</button>
+              <button class="nav-link px-4 py-2 fw-semibold" id="theory-tab" data-bs-toggle="tab" data-bs-target="#theory-content" type="button" role="tab">
+                📚 Experten-Wissen
+              </button>
             </li>
           </ul>
         </div>
@@ -38,7 +48,7 @@
     </div>
   </header>
 
-  <main class="container">
+  <main class="container my-5 flex-grow-1">
     
     <div class="tab-content" id="myTabContent">
 
@@ -47,16 +57,16 @@
         <div class="row">
             <div class="col-lg-8">
                 <!-- Hardware Table -->
-                <div class="card mb-4">
-                  <div class="card-header">
-                    <h2>Hardware Auswahl</h2>
-                    <p class="text-muted mb-0">Wähle deine Komponenten. Der Preis aktualisiert sich in Echtzeit.</p>
+                <div class="card shadow-sm mb-4">
+                  <div class="card-header bg-white py-3">
+                    <h2 class="h4 mb-1 text-dark">Hardware Auswahl</h2>
+                    <p class="text-muted small mb-0">Wähle deine Komponenten. Der Preis aktualisiert sich in Echtzeit.</p>
                   </div>
                   <div class="card-body p-0">
                     
                     <div class="table-responsive">
-                      <table class="table" id="hardware-table">
-                        <thead>
+                      <table class="table mb-0" id="hardware-table">
+                        <thead class="bg-light">
                           <tr>
                             <th style="width: 25%;">Komponente</th>
                             <th style="width: 45%;">Modellwahl</th>
@@ -216,8 +226,19 @@
                             <span>Gemini analysiert...</span>
                         </div>
 
-                        <div id="ai-output" class="ai-response-box shadow-sm">
-                            <!-- AI Antwort kommt hier rein -->
+                        <!-- AI OUTPUT BOX -->
+                        <div class="position-relative">
+                          <div id="ai-output" class="ai-response-box shadow-sm">
+                              <!-- AI Antwort kommt hier rein -->
+                          </div>
+                          <!-- Resize Button -->
+                          <button id="btn-resize-ai" class="btn btn-sm btn-light border position-absolute top-0 end-0 m-2" style="display:none;" title="Größe umschalten">
+                            ⤢ Erweitern
+                          </button>
+                          <!-- NEU: Close Expanded View Button, explizit mit 'btn-danger' und sicherem Z-Index -->
+                          <button id="btn-close-expanded" class="btn btn-sm btn-danger border shadow position-absolute top-0 end-0 m-2" style="display:none; z-index:9999;" title="Schließen">
+                            ✕ Schließen
+                          </button>
                         </div>
 
                     </div>
@@ -408,6 +429,50 @@
 
     </div>
   </main>
+
+  <!-- === FOOTER === -->
+  <footer class="bg-dark text-light mt-auto pt-5 pb-3">
+    <div class="container">
+      <div class="row">
+        <!-- Spalte 1: Projekt -->
+        <div class="col-md-4 mb-4">
+          <h5 class="text-uppercase fw-bold text-primary mb-3">Über das Projekt</h5>
+          <p class="small text-white-50">
+            Ein moderner PC-Konfigurator, erstellt als Schulprojekt. Unser Ziel ist es, Hardware-Auswahl durch AI-Unterstützung und Expertenwissen zu vereinfachen.
+          </p>
+          <p class="small text-white-50">© 2025 David Leitner & Maximilian Baumgartner</p>
+        </div>
+        
+        <!-- Spalte 2: Quick Links -->
+        <div class="col-md-4 mb-4">
+          <h5 class="text-uppercase fw-bold text-primary mb-3">Links</h5>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none hover-white">Startseite</a></li>
+            <li class="mb-2"><a href="#builder-content" class="text-white-50 text-decoration-none hover-white">Konfigurator</a></li>
+            <li class="mb-2"><a href="#theory-content" class="text-white-50 text-decoration-none hover-white">Experten-Wissen</a></li>
+            <li class="mb-2"><a href="https://www.idealo.de" target="_blank" class="text-white-50 text-decoration-none hover-white">Preisvergleich</a></li>
+          </ul>
+        </div>
+
+        <!-- Spalte 3: Rechtliches/Kontakt -->
+        <div class="col-md-4 mb-4">
+          <h5 class="text-uppercase fw-bold text-primary mb-3">Kontakt & Info</h5>
+          <ul class="list-unstyled small text-white-50">
+            <li class="mb-2">📍 Wien, Österreich</li>
+            <li class="mb-2">📧 kontakt@pc-builder-pro.at</li>
+            <li class="mb-2">👨‍💻 Github Repository</li>
+            <li class="mt-3"><a href="#" class="text-white-50">Impressum</a> | <a href="#" class="text-white-50">Datenschutz</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="border-secondary my-3">
+      <div class="text-center small text-secondary">
+        Made with ❤️ and ☕ using Bootstrap & Gemini AI
+      </div>
+    </div>
+    <!-- Platzhalter damit der Sticky-Price-Bar nichts verdeckt -->
+    <div style="height: 80px;"></div>
+  </footer>
 
   <!-- Sticky Footer Price Bar -->
   <div class="sticky-price-bar">
