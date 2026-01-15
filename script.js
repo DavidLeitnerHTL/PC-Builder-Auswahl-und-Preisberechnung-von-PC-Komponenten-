@@ -1,7 +1,7 @@
 /**
  * KONFIGURATION
  */
-const apiKey = "AIzaSyDhsBHrpDgfGze7Pw3MYL_QVIRRiNPSJTs"; // API Key wird zur Laufzeit injected
+const apiKey = ""; // API Key wird zur Laufzeit injected
 
 /**
  * FUNKTION: update(select)

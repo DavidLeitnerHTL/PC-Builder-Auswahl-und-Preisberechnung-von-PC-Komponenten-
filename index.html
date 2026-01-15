@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PC-Konfigurator Ultimate AI</title>
+  <title>PC-Konfigurator Ultimate AI - V2</title>
   
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -36,13 +36,25 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="nav nav-pills ms-auto gap-2 align-items-center" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active px-4 py-2 fw-semibold" id="builder-tab" data-bs-toggle="tab" data-bs-target="#builder-content" type="button" role="tab">
+              <button class="nav-link active px-3 py-2 fw-semibold" id="builder-tab" data-bs-toggle="tab" data-bs-target="#builder-content" type="button" role="tab">
                 <i class="fas fa-tools me-2"></i>Konfigurator
               </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link px-4 py-2 fw-semibold" id="theory-tab" data-bs-toggle="tab" data-bs-target="#theory-content" type="button" role="tab">
+              <button class="nav-link px-3 py-2 fw-semibold" id="theory-tab" data-bs-toggle="tab" data-bs-target="#theory-content" type="button" role="tab">
                 <i class="fas fa-book-open me-2"></i>Experten-Wissen
+              </button>
+            </li>
+            <!-- NEU: FAQ Tab -->
+            <li class="nav-item" role="presentation">
+              <button class="nav-link px-3 py-2" id="faq-tab" data-bs-toggle="tab" data-bs-target="#faq-content" type="button" role="tab">
+                <i class="fas fa-question-circle me-1"></i>FAQ
+              </button>
+            </li>
+            <!-- NEU: News Tab -->
+             <li class="nav-item" role="presentation">
+              <button class="nav-link px-3 py-2" id="news-tab" data-bs-toggle="tab" data-bs-target="#news-content" type="button" role="tab">
+                <i class="fas fa-newspaper me-1"></i>News
               </button>
             </li>
           </ul>
@@ -258,7 +270,7 @@
         </div>
       </div>
 
-      <!-- === THEORY TAB (NEU ÜBERARBEITET) === -->
+      <!-- === THEORY TAB === -->
       <div class="tab-pane fade" id="theory-content" role="tabpanel">
         <div class="row">
           <div class="col-lg-12 mx-auto">
@@ -330,7 +342,7 @@
                     <div class="accordion-body bg-light">
                       <div class="row mb-4">
                           <div class="col-md-4 order-md-2 mb-3 mb-md-0">
-                               <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded shadow-sm" alt="Modern Graphics Card">
+                               <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=600&q=80" class="img-fluid" alt="Modern Graphics Card">
                           </div>
                           <div class="col-md-8 order-md-1">
                               <h5 class="text-primary">VRAM & Auflösung</h5>
@@ -544,32 +556,7 @@
                   </div>
                 </div>
 
-                <!-- 8. HÄUFIGE FRAGEN (FAQ) - INTEGRIERT -->
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="headingFAQ">
-                    <button class="accordion-button collapsed fw-bold bg-warning-subtle text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFAQ">
-                      ❓ Häufige Fragen & Probleme (FAQ)
-                    </button>
-                  </h2>
-                  <div id="collapseFAQ" class="accordion-collapse collapse" data-bs-parent="#accordionTheory">
-                    <div class="accordion-body bg-white">
-                        <div class="mb-3">
-                            <strong class="text-primary">Hilfe, mein PC startet nicht! (Schwarzer Bildschirm)</strong>
-                            <p class="small text-muted">Prüfe die Debug-LEDs am Mainboard. Steckt das Monitor-Kabel in der Grafikkarte (unten) und nicht im Mainboard? Sitzt der RAM fest?</p>
-                        </div>
-                        <div class="mb-3">
-                            <strong class="text-primary">Mein RAM läuft nur langsam (4800 MHz)</strong>
-                            <p class="small text-muted">Aktiviere im BIOS das <strong>XMP</strong> (Intel) oder <strong>EXPO</strong> (AMD) Profil.</p>
-                        </div>
-                        <div class="mb-3">
-                            <strong class="text-primary">Windows 10 oder 11?</strong>
-                            <p class="small text-muted">Für neue Intel CPUs (ab 12. Gen) ist Windows 11 Pflicht wegen der E-Core Steuerung.</p>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 9. QUELLEN & LINKS -->
+                <!-- 8. QUELLEN & LINKS (ERWEITERT) -->
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingSeven">
                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven">
@@ -619,6 +606,175 @@
           </div>
         </div>
       </div>
+
+      <!-- === FAQ TAB (NEU) === -->
+      <div class="tab-pane fade" id="faq-content" role="tabpanel">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card p-4 shadow-sm border-0">
+                    <h3 class="fw-bold mb-4 text-center">Häufige Probleme & Lösungen</h3>
+                    <p class="text-center text-muted mb-5">Wenn der Bildschirm schwarz bleibt oder der Lüfter rattert – hier findest du Erste Hilfe.</p>
+                    
+                    <div class="accordion accordion-flush" id="faqAccordion">
+                        
+                        <!-- Frage 1 -->
+                        <div class="accordion-item border mb-3 rounded overflow-hidden">
+                          <h2 class="accordion-header" id="faqHeadingOne">
+                            <button class="accordion-button collapsed fw-bold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne">
+                              🚨 Hilfe, mein PC startet nicht! (Schwarzer Bildschirm)
+                            </button>
+                          </h2>
+                          <div id="faqCollapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                              <ol class="small text-muted mb-0">
+                                <li class="mb-2"><strong>Debug-LEDs prüfen:</strong> Fast jedes Mainboard hat 4 kleine LEDs (CPU, DRAM, VGA, BOOT). Leuchtet eine? Das zeigt dir den Fehler.</li>
+                                <li class="mb-2"><strong>Monitor-Kabel:</strong> Steckt das HDMI/DP Kabel in der <em>Grafikkarte</em> (unten) und nicht aus Versehen im Mainboard (oben)?</li>
+                                <li class="mb-2"><strong>Stromkabel:</strong> Sitzt der 24-Pin ATX Stecker und der 8-Pin CPU Stecker oben links wirklich fest?</li>
+                                <li><strong>RAM:</strong> Sitzt der RAM hörbar eingerastet ("Klick")? Teste jeden Riegel einzeln.</li>
+                              </ol>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Frage 2 -->
+                         <div class="accordion-item border mb-3 rounded overflow-hidden">
+                          <h2 class="accordion-header" id="faqHeadingTwo">
+                            <button class="accordion-button collapsed fw-bold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo">
+                              🐌 Mein RAM läuft nur mit 4800 MHz statt 6000 MHz
+                            </button>
+                          </h2>
+                          <div id="faqCollapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p class="small text-muted">
+                                    Das ist normal! Neuer RAM läuft aus Sicherheitsgründen erstmal auf "Stock"-Speed.
+                                    <br><br>
+                                    <strong>Lösung:</strong> Geh ins BIOS (beim Start 'Entf' oder 'F2' drücken) und aktiviere das Profil <strong>XMP</strong> (bei Intel) oder <strong>EXPO</strong> (bei AMD). Speichern & Neustart nicht vergessen (F10).
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Frage 3 -->
+                        <div class="accordion-item border mb-3 rounded overflow-hidden">
+                          <h2 class="accordion-header" id="faqHeadingThree">
+                            <button class="accordion-button collapsed fw-bold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree">
+                              💿 Wie installiere ich Windows ohne DVD-Laufwerk?
+                            </button>
+                          </h2>
+                          <div id="faqCollapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p class="small text-muted">
+                                    Du brauchst einen USB-Stick (mind. 8GB).
+                                    <br>Lade dir an einem anderen PC das <strong>Media Creation Tool</strong> von Microsoft herunter. Es erstellt dir automatisch einen bootfähigen USB-Stick.
+                                    <br>Stick in den neuen PC stecken -> Einschalten -> Vom Stick booten.
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Frage 4 -->
+                        <div class="accordion-item border mb-3 rounded overflow-hidden">
+                          <h2 class="accordion-header" id="faqHeadingFour">
+                            <button class="accordion-button collapsed fw-bold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseFour">
+                              🔊 Meine Grafikkarte "surrt" unter Last (Spulenfiepen)
+                            </button>
+                          </h2>
+                          <div id="faqCollapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p class="small text-muted">
+                                    "Coil Whine" ist physikalisch bedingt und kein Defekt. Es tritt oft bei sehr hohen FPS auf (z.B. in Menüs).
+                                    <br><strong>Tipp:</strong> Begrenze die FPS im Spiel oder im Treiber auf die Hertz-Zahl deines Monitors (z.B. 144 FPS Cap). Das hilft oft Wunder.
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Frage 5 -->
+                        <div class="accordion-item border mb-3 rounded overflow-hidden">
+                          <h2 class="accordion-header" id="faqHeadingFive">
+                            <button class="accordion-button collapsed fw-bold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseFive">
+                              💻 Brauche ich Windows 10 oder 11?
+                            </button>
+                          </h2>
+                          <div id="faqCollapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p class="small text-muted">
+                                    Wenn du eine moderne Intel CPU (ab 12. Generation) nutzt, ist <strong>Windows 11 Pflicht</strong>.
+                                    <br>Der Grund: Nur Win 11 hat den "Thread Director", der dem PC sagt, welche Aufgaben auf die schnellen P-Cores und welche auf die sparsamen E-Cores gehören. Unter Windows 10 kann es zu Rucklern kommen.
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+       <!-- === NEWS TAB (NEU) === -->
+       <div class="tab-pane fade" id="news-content" role="tabpanel">
+        <div class="container pb-5">
+            <div class="text-center mb-5">
+                 <h2 class="fw-bold display-6">Hardware-Ticker</h2>
+                 <p class="text-muted">Die heißesten Gerüchte und News aus der Tech-Welt.</p>
+                 <span class="badge bg-secondary">Quelle: ComputerBase Simulation</span>
+            </div>
+
+            <div class="row g-4">
+                
+                <!-- News 1 -->
+                <div class="col-md-4">
+                    <div class="card news-card h-100 shadow-sm border-0 overflow-hidden">
+                        <div class="position-relative">
+                             <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Retro Tech" style="height: 200px; object-fit: cover;">
+                             <span class="news-tag">Grafikkarten</span>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <small class="text-muted mb-2">Vor 2 Stunden</small>
+                            <h5 class="card-title fw-bold">Nvidia Blackwell: RTX 5090 soll mit 32 GB GDDR7 kommen</h5>
+                            <p class="card-text small text-muted flex-grow-1">Erste Leaks deuten auf ein massives Speicher-Upgrade hin. Das neue Speicherinterface soll eine Bandbreite von bis zu 1.5 TB/s ermöglichen.</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-3 stretched-link">Weiterlesen</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- News 2 -->
+                <div class="col-md-4">
+                    <div class="card news-card h-100 shadow-sm border-0 overflow-hidden">
+                        <div class="position-relative">
+                             <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="CPU" style="height: 200px; object-fit: cover;">
+                             <span class="news-tag">Prozessoren</span>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <small class="text-muted mb-2">Gestern, 14:30</small>
+                            <h5 class="card-title fw-bold">AMD Ryzen 9000X3D: Der neue Gaming-König?</h5>
+                            <p class="card-text small text-muted flex-grow-1">Die 3D-V-Cache Versionen der Zen 5 Architektur zeigen in ersten internen Benchmarks beeindruckende Effizienzgewinne gegenüber Intel Arrow Lake.</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-3 stretched-link">Weiterlesen</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- News 3 -->
+                <div class="col-md-4">
+                    <div class="card news-card h-100 shadow-sm border-0 overflow-hidden">
+                        <div class="position-relative">
+                             <img src="https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Monitor" style="height: 200px; object-fit: cover;">
+                             <span class="news-tag">Monitore</span>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <small class="text-muted mb-2">Vor 3 Tagen</small>
+                            <h5 class="card-title fw-bold">OLED Preisschlacht: 27 Zoll WQHD unter 600 Euro</h5>
+                            <p class="card-text small text-muted flex-grow-1">Die Ausbeute der Panel-Hersteller steigt. LG und Samsung liefern sich einen Preiskampf, der OLED endlich massentauglich machen könnte.</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-3 stretched-link">Weiterlesen</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+      </div>
+
 
     </div>
   </main>
@@ -674,9 +830,7 @@
       </div>
       <div class="d-flex align-items-center">
         <span class="total-price"><span id="total">0.00</span> €</span>
-        <button class="btn btn-primary btn-lg ms-4 shadow px-4 py-2" onclick="window.print()">
-          <i class="fas fa-print me-2"></i>Drucken
-        </button>
+        <!-- DRUCKEN BUTTON ENTFERNT FÜR CLEANER LOOK -->
       </div>
     </div>
   </div>
