@@ -1,7 +1,7 @@
 /**
  * KONFIGURATION
  */
-const apiKey = ""; // API Key wird zur Laufzeit injected
+const apiKey = "AIzaSyDhsBHrpDgfGze7Pw3MYL_QVIRRiNPSJTs"; // API Key wird zur Laufzeit injected
 
 /**
  * FUNKTION: update(select)
@@ -188,7 +188,7 @@ if(btnAsk) {
         
         Frage des Nutzers: "${question}"
         
-        Antworte spezifisch basierend auf der Hardware oben. Antworte auf Deutsch. Fasse dich sehr kurz (max 3-4 Sätze).`;
+        Antworte spezifisch basierend auf der Hardware oben. Antworte auf Deutsch. Fasse dich sehr kurz (max 3-4 Sätze). `;
 
         toggleLoading(true);
         const result = await callGemini(prompt);
