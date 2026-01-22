@@ -2,14 +2,14 @@
   /* Slate Theme - Ein modernes, bläuliches Grau für einen professionellen Look */
   --bg-body: #f1f5f9;
   --bg-card: #ffffff; 
-  --text-primary: #1e293b;
+  --text-primary: #040f29;
   --text-secondary: #000000;
   --accent-color: #000000;
   --highlight: #000000;
   
   /* Farbverläufe für Highlights */
-  --success-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  --ai-gradient: linear-gradient(135deg, #040f29 0%, #040f29 100%); 
+  --success-gradient: linear-gradient(135deg, #0435a6 0%, #0435a6 100%);
+  --ai-gradient: linear-gradient(135deg, #0435a6 0%, #0435a6 100%); 
   --row-hover-bg: #f8fafc;
 }
 
@@ -105,7 +105,7 @@ footer {
 /* AI Response Box - Standard */
 .ai-response-box {
   background-color: #f8fafc;
-  border-left: 4px solid #818cf8;
+  border-left: 4px solid #0435a6;
   padding: 1.5rem;
   border-radius: 8px;
   font-size: 0.95rem;
