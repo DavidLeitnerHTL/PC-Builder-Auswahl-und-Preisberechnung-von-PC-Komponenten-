@@ -28,9 +28,10 @@ header {
   border-bottom: 1px solid #000000;
 }
 
-img {
-    max-width: 15%;
-    max-height: 15%;
+/* FIX: Logo spezifisch begrenzen, statt global alle Bilder zu schrumpfen */
+.navbar-brand img {
+    max-width: 60px;
+    height: auto;
 }
 
 .navbar-brand {
