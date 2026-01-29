@@ -322,15 +322,8 @@ footer {
     filter: brightness(1.1);
 }
 
-/* === Tipps Box === */
-.tips-box {
-  background-color: #fff;
-  border-left: 5px solid var(--accent-color);
-  padding: 1.5rem;
-  border-radius: 0 8px 8px 0;
-  margin-top: 1rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
+/* === Tipps Box entfernt === */
+
 
 /* === Expert Accordion Styles === */
 .accordion-button:not(.collapsed) {
