@@ -30,7 +30,7 @@ header {
 
 /* FIX: Logo spezifisch begrenzen, statt global alle Bilder zu schrumpfen */
 .navbar-brand img {
-    max-width: 60px;
+    max-width: 100px; /* Logo etwas größer gemacht (war 60px) */
     height: auto;
 }
 
