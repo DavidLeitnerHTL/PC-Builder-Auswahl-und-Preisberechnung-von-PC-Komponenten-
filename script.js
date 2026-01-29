@@ -111,7 +111,7 @@ async function callGemini(prompt) {
             return data.candidates[0].content.parts[0].text;
         } catch (error) {
             console.error(error);
-            if (i === delays.length) return "⚠️ Fehler: Die AI konnte nicht antworten. Überprüfe deine Internetverbindung.";
+            if (i === delays.length) return "Fehler: Die AI konnte nicht antworten. Überprüfe deine Internetverbindung.";
             await new Promise(resolve => setTimeout(resolve, delays[i]));
         }
     }
