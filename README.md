@@ -27,4 +27,4 @@ A web-based tool for assembling PC components with integrated AI advice and pric
 ***David Leitner**
 ***Maximilian Baumgartner**
 
-***Developed as a school project at HTL Leonding.**[EOF]
+***Developed as a school project at HTL Leonding.**
