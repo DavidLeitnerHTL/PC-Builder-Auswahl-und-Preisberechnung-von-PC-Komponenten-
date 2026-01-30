@@ -174,6 +174,7 @@ if(btnCheck) {
     });
 }
 
+
 // 2. Button: Frage stellen
 const btnAsk = document.getElementById('btn-ask-ai');
 if(btnAsk) {

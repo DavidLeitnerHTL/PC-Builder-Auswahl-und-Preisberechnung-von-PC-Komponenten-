@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PC-Konfigurator</title>
+  <title>PC Configurator Ultimate AI - Final V3.1</title>
   
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <!-- FontAwesome für Icons -->
+  <!-- FontAwesome for Icons (Technical UI elements) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Custom CSS -->
@@ -23,10 +23,11 @@
       <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
         <a class="navbar-brand d-flex flex-column" href="#">
           <div class="d-flex align-items-center">
-            <img src="Logo.png" alt="unser Logo">
-            <span style="font-size: 2.2rem; margin-right: 15px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));"></span> 
-            <span class="fw-bold" style="font-size: 1.8rem; letter-spacing: -0.5px;">PC-Konfigurator</span>
+            <img src="Logo.png" alt="Our Logo">
+            <!-- Emojis removed -->
+            <span class="fw-bold" style="font-size: 1.8rem; letter-spacing: -0.5px; margin-left: 15px;">PC Configurator</span>
           </div>
+          <span class="text-white-50 small ms-5 ps-2" style="margin-top: -5px;">Hardware Builder Ultimate</span>
         </a>
         
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -37,12 +38,12 @@
           <ul class="nav nav-pills ms-auto gap-2 align-items-center" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
               <button class="nav-link active px-3 py-2 fw-semibold" id="builder-tab" data-bs-toggle="tab" data-bs-target="#builder-content" type="button" role="tab">
-                <i class="fas fa-tools me-2"></i>Konfigurator
+                <i class="fas fa-tools me-2"></i>Configurator
               </button>
             </li>
             <li class="nav-item" role="presentation">
               <button class="nav-link px-3 py-2 fw-semibold" id="theory-tab" data-bs-toggle="tab" data-bs-target="#theory-content" type="button" role="tab">
-                <i class="fas fa-book-open me-2"></i>Experten-Wissen
+                <i class="fas fa-book-open me-2"></i>Expert Knowledge
               </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -72,25 +73,26 @@
                 <!-- Hardware Table -->
                 <div class="card shadow-sm mb-4">
                   <div class="card-header bg-white py-3">
-                    <h2 class="h4 mb-1 text-dark">Hardware Auswahl</h2>
-                    <p class="text-muted small mb-0">Wähle deine Komponenten. Der Preis aktualisiert sich in Echtzeit.</p>
+                    <h2 class="h4 mb-1 text-dark">Hardware Selection</h2>
+                    <p class="text-muted small mb-0">Choose your components. The price updates in real-time.</p>
                   </div>
                   <div class="card-body p-0">
                     
-                    <div class="table-responsive">
+                    <!-- Scroll Container -->
+                    <div class="table-responsive hardware-scroll-container">
                       <table class="table mb-0" id="hardware-table">
                         <thead class="bg-light">
                           <tr>
-                            <th style="width: 25%;">Komponente</th>
-                            <th style="width: 45%;">Modellwahl</th>
-                            <th style="width: 15%;">Preis (€)</th>
+                            <th style="width: 25%;">Component</th>
+                            <th style="width: 45%;">Model Selection</th>
+                            <th style="width: 15%;">Price (€)</th>
                             <th style="width: 15%;">Details</th>
                           </tr>
                         </thead>
                         <tbody>
                           <!-- CPU -->
                           <tr data-category="CPU">
-                            <td><div class="fw-bold text-dark">Prozessor (CPU)</div></td>
+                            <td><div class="fw-bold text-dark">Processor (CPU)</div></td>
                             <td>
                               <select class="form-select component-select" onchange="update(this)">
                                 <option value="99.00,https://www.idealo.de/preisvergleich/OffersOfProduct/200733045_-ryzen-5-5600x-amd.html">AMD Ryzen 5 5600X</option>
@@ -100,13 +102,13 @@
                                 <option value="113.38,https://www.idealo.de/preisvergleich/OffersOfProduct/202265862_-core-i5-13400f-intel.html">Intel Core i5-13400F</option>
                               </select>
                             </td>
-                            <td><input type="number" step="0.01" class="form-control text-end fw-bold price-input" value="99.00" readonly></td>
+                            <td><input type="number" class="form-control text-end fw-bold price-input" value="99.00" readonly></td>
                             <td><a href="#" target="_blank" class="btn btn-link-custom w-100">Info</a></td>
                           </tr>
 
-                          <!-- Kühler -->
-                          <tr data-category="Kühler">
-                            <td><div class="fw-bold text-dark">CPU-Kühler</div></td>
+                          <!-- Cooler -->
+                          <tr data-category="Cooler">
+                            <td><div class="fw-bold text-dark">CPU Cooler</div></td>
                             <td>
                               <select class="form-select component-select" onchange="update(this)">
                                 <option value="39.90,https://www.idealo.de/preisvergleich/OffersOfProduct/200925232_-freezer-34-esports-duo-arctic.html">Arctic Freezer 34 eSports</option>
@@ -114,13 +116,13 @@
                                 <option value="129.90,https://www.idealo.de/preisvergleich/OffersOfProduct/202265930_-kraken-x53-nzxt.html">NZXT Kraken X53 (AiO)</option>
                               </select>
                             </td>
-                            <td><input type="number" step="0.01" class="form-control text-end fw-bold price-input" value="39.90" readonly></td>
+                            <td><input type="number" class="form-control text-end fw-bold price-input" value="39.90" readonly></td>
                             <td><a href="#" target="_blank" class="btn btn-link-custom w-100">Info</a></td>
                           </tr>
 
                           <!-- Mainboard -->
                           <tr data-category="Mainboard">
-                            <td><div class="fw-bold text-dark">Mainboard</div></td>
+                            <td><div class="fw-bold text-dark">Motherboard</div></td>
                             <td>
                               <select class="form-select component-select" onchange="update(this)">
                                 <option value="110.00,https://www.idealo.de/preisvergleich/OffersOfProduct/200788934.html">MSI B550-A PRO (AM4)</option>
@@ -128,13 +130,13 @@
                                 <option value="210.00,https://www.idealo.de/preisvergleich/OffersOfProduct/202265741.html">ASUS ROG Strix B650-A (AM5)</option>
                               </select>
                             </td>
-                            <td><input type="number" step="0.01" class="form-control text-end fw-bold price-input" value="110.00" readonly></td>
+                            <td><input type="number" class="form-control text-end fw-bold price-input" value="110.00" readonly></td>
                             <td><a href="#" target="_blank" class="btn btn-link-custom w-100">Info</a></td>
                           </tr>
 
                           <!-- GPU -->
-                          <tr data-category="Grafikkarte">
-                            <td><div class="fw-bold text-dark">Grafikkarte</div></td>
+                          <tr data-category="Graphics Card">
+                            <td><div class="fw-bold text-dark">Graphics Card</div></td>
                             <td>
                               <select class="form-select component-select" onchange="update(this)">
                                 <option value="339.90,https://www.idealo.de/preisvergleich/OffersOfProduct/202923288_-geforce-rtx-4060-gigabyte.html">NVIDIA RTX 4060 (8GB)</option>
@@ -143,7 +145,7 @@
                                 <option value="1200.00,https://www.idealo.de/preisvergleich/OffersOfProduct/202208764_-geforce-rtx-4080-gamerock-palit.html">NVIDIA RTX 4080 Super</option>
                               </select>
                             </td>
-                            <td><input type="number" step="0.01" class="form-control text-end fw-bold price-input" value="339.90" readonly></td>
+                            <td><input type="number" class="form-control text-end fw-bold price-input" value="339.90" readonly></td>
                             <td><a href="#" target="_blank" class="btn btn-link-custom w-100">Info</a></td>
                           </tr>
 
@@ -156,13 +158,13 @@
                                 <option value="134.20,https://www.idealo.de/preisvergleich/OffersOfProduct/202056498_-vengeance-rgb-32gb-kit-ddr5-6000-cl36-corsair.html">Corsair Vengeance 32GB DDR5</option>
                               </select>
                             </td>
-                            <td><input type="number" step="0.01" class="form-control text-end fw-bold price-input" value="60.00" readonly></td>
+                            <td><input type="number" class="form-control text-end fw-bold price-input" value="60.00" readonly></td>
                             <td><a href="#" target="_blank" class="btn btn-link-custom w-100">Info</a></td>
                           </tr>
 
                           <!-- SSD -->
                           <tr data-category="SSD">
-                            <td><div class="fw-bold text-dark">SSD Speicher</div></td>
+                            <td><div class="fw-bold text-dark">SSD Storage</div></td>
                             <td>
                               <select class="form-select component-select" onchange="update(this)">
                                 <option value="45.90,https://www.idealo.de/preisvergleich/OffersOfProduct/204697964_-nv3-m-2-kingston.html">Kingston NV3 M.2 500GB</option>
@@ -170,13 +172,13 @@
                                 <option value="150.00,https://www.idealo.de/preisvergleich/OffersOfProduct/202112345.html">Samsung 990 Pro 2TB</option>
                               </select>
                             </td>
-                            <td><input type="number" step="0.01" class="form-control text-end fw-bold price-input" value="45.90" readonly></td>
+                            <td><input type="number" class="form-control text-end fw-bold price-input" value="45.90" readonly></td>
                             <td><a href="#" target="_blank" class="btn btn-link-custom w-100">Info</a></td>
                           </tr>
 
-                          <!-- Netzteil -->
-                          <tr data-category="Netzteil">
-                            <td><div class="fw-bold text-dark">Netzteil</div></td>
+                          <!-- PSU -->
+                          <tr data-category="Power Supply">
+                            <td><div class="fw-bold text-dark">Power Supply</div></td>
                             <td>
                               <select class="form-select component-select" onchange="update(this)">
                                 <option value="59.90,https://www.idealo.de/preisvergleich/OffersOfProduct/206603567_-pure-power-13-m-550w-be-quiet.html">be quiet! Pure Power 13 M 550W</option>
@@ -184,13 +186,13 @@
                                 <option value="120.00,https://www.idealo.de/preisvergleich/OffersOfProduct/201008677.html">be quiet! Straight Power 12 850W</option>
                               </select>
                             </td>
-                            <td><input type="number" step="0.01" class="form-control text-end fw-bold price-input" value="59.90" readonly></td>
+                            <td><input type="number" class="form-control text-end fw-bold price-input" value="59.90" readonly></td>
                             <td><a href="#" target="_blank" class="btn btn-link-custom w-100">Info</a></td>
                           </tr>
 
-                          <!-- Gehäuse -->
-                          <tr data-category="Gehäuse">
-                            <td><div class="fw-bold text-dark">Gehäuse</div></td>
+                          <!-- Case -->
+                          <tr data-category="Case">
+                            <td><div class="fw-bold text-dark">Case</div></td>
                             <td>
                               <select class="form-select component-select" onchange="update(this)">
                                 <option value="69.00,https://www.idealo.de/preisvergleich/OffersOfProduct/201302559.html">NZXT H510</option>
@@ -198,7 +200,7 @@
                                 <option value="99.00,https://www.idealo.de/preisvergleich/OffersOfProduct/202197143.html">Fractal Design North</option>
                               </select>
                             </td>
-                            <td><input type="number" step="0.01" class="form-control text-end fw-bold price-input" value="69.00" readonly></td>
+                            <td><input type="number" class="form-control text-end fw-bold price-input" value="69.00" readonly></td>
                             <td><a href="#" target="_blank" class="btn btn-link-custom w-100">Info</a></td>
                           </tr>
                         </tbody>
@@ -213,107 +215,115 @@
                 <div class="card ai-card mb-4">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
-                            <h3 class="h5 fw-bold m-0 text-dark"> AI Assistent</h3>
+                            <h3 class="h5 fw-bold m-0 text-dark">AI Assistant</h3>
                             <span class="ai-badge">Gemini Powered</span>
                         </div>
                         <p class="small text-muted mb-3">
-                            Lass deine Konfiguration von künstlicher Intelligenz prüfen oder stelle Fragen zu deinem Build.
+                            Let artificial intelligence check your configuration or ask questions about your build.
                         </p>
 
                         <div class="d-grid gap-2">
                             <button id="btn-check-build" class="btn btn-ai shadow-sm py-2">
-                                 Systemprüfung starten
+                                Start System Check
                             </button>
                         </div>
 
                         <hr class="my-3">
 
-                        <label class="form-label fw-bold small text-dark">Frag den Experten:</label>
+                        <label class="form-label fw-bold small text-dark">Ask the Expert:</label>
                         <div class="input-group mb-2">
-                            <input type="text" id="ai-question-input" class="form-control" placeholder="z.B. Reicht das für 4K?">
+                            <input type="text" id="ai-question-input" class="form-control" placeholder="e.g. Is this enough for 4K?">
                             <button class="btn btn-outline-secondary" type="button" id="btn-ask-ai">➤</button>
                         </div>
                         
                         <div id="ai-loading" class="ai-loading">
                             <div class="spinner-dots"></div>
-                            <span>Gemini analysiert...</span>
+                            <span>Gemini is analyzing...</span>
                         </div>
 
-                        <!-- Wrapper für das Resultat (Box + Buttons) -->
+                        <!-- Wrapper for Result (Box + Buttons) -->
                         <div id="ai-result-wrapper" class="ai-result-wrapper" style="display: none;">
                             
-                            <!-- Buttons (sind jetzt Teil des Wrappers) -->
+                            <!-- Buttons -->
                             <div class="ai-buttons-container">
-                                <button id="btn-resize-ai" class="btn btn-sm btn-light border shadow-sm" title="Vergrößern">⤢</button>
-                                <button id="btn-close-expanded" class="btn btn-sm btn-danger border shadow-sm" title="Schließen" style="display: none;">✕ Schließen</button>
+                                <button id="btn-resize-ai" class="btn btn-sm btn-light border shadow-sm" title="Expand">⤢</button>
+                                <button id="btn-close-expanded" class="btn btn-sm btn-danger border shadow-sm" title="Close" style="display: none;">✕ Close</button>
                             </div>
 
-                            <!-- Text Inhalt -->
+                            <!-- Text Content -->
                             <div id="ai-output" class="ai-response-box shadow-sm"></div>
                         </div>
 
                     </div>
                 </div>
 
-                <!-- Tipps Box entfernt -->
+                <!-- Tips Box -->
+                <div class="tips-box d-none d-lg-block">
+                    <h5 class="text-dark">Quick Tips</h5>
+                    <ul class="mb-0 text-muted small ps-3">
+                      <li class="mb-2"><strong>Airflow:</strong> Hot air must get out!</li>
+                      <li class="mb-2"><strong>Paste:</strong> Less is more.</li>
+                      <li><strong>ESD:</strong> Touch a radiator before building.</li>
+                    </ul>
+                </div>
             </div>
         </div>
       </div>
 
-      <!-- === THEORY TAB (NEU ÜBERARBEITET) === -->
+      <!-- === THEORY TAB === -->
       <div class="tab-pane fade" id="theory-content" role="tabpanel">
         <div class="row">
           <div class="col-lg-12 mx-auto">
             <div class="card p-4 theory-section shadow-lg border-0">
               
               <div class="text-center mb-5 pb-3 border-bottom">
-                  <h2 class="display-6 fw-bold text-dark mb-2">PC-Hardware Kompendium</h2>
-                  <p class="lead text-muted">Umfassendes Fachwissen von A wie "Airflow" bis Z wie "Z-Chipsatz".</p>
+                  <h2 class="display-6 fw-bold text-dark mb-2">PC Hardware Compendium</h2>
+                  <p class="lead text-muted">Comprehensive knowledge from A like "Airflow" to Z like "Z-Chipset".</p>
                   <div class="mt-3">
-                      <span class="badge bg-light text-dark border me-2">Stand: 2026</span>
-                      <span class="badge bg-light text-dark border">Level: Experte</span>
+                      <span class="badge bg-light text-dark border me-2">Status: 2026</span>
+                      <span class="badge bg-light text-dark border">Level: Expert</span>
                   </div>
               </div>
 
               <div class="accordion" id="accordionTheory">
 
-                <!-- 1. PROZESSOREN -->
+                <!-- 1. PROCESSORS -->
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                       Prozessoren (CPU) – Das Herzstück
+                       Processors (CPU) – The Heart
                     </button>
                   </h2>
                   <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionTheory">
                     <div class="accordion-body bg-light">
                       <div class="row align-items-center mb-4">
                           <div class="col-md-8">
-                              <h5 class="text-primary mb-3">Kerne & Threads – was zählt wirklich?</h5>
+                              <h5 class="text-primary mb-3">Cores & Threads – What really counts?</h5>
                               <p class="text-muted">
-                                Die CPU schmeißt den Laden. Physische <strong>Kerne</strong> packen die Arbeit an, während <strong>Threads</strong> (virtuelle Kerne) dafür sorgen, dass keine Wartezeiten entstehen. Denk an Kassen im Supermarkt: Kerne sind die Kassen, Threads die Kassierer, die schon den nächsten Kunden scannen, während der erste noch einpackt.
+                                The CPU runs the show. Physical <strong>Cores</strong> do the heavy lifting, while <strong>Threads</strong> (virtual cores) ensure there's no waiting time. Think of supermarket checkouts: Cores are the registers, threads are the cashiers scanning the next customer while the first is packing.
                                 <br><br>
-                                <i class="fas fa-gamepad text-secondary me-2"></i><strong>Zocken:</strong> 6-8 Kerne reichen dicke. Mehr bringt in Spielen kaum FPS.
+                                <i class="fas fa-gamepad text-secondary me-2"></i><strong>Gaming:</strong> 6-8 cores are plenty. More rarely adds FPS in games.
                                 <br>
-                                <i class="fas fa-video text-secondary me-2"></i><strong>Arbeiten:</strong> Wer schneidet oder streamt, freut sich über jeden Kern extra (12+).
+                                <i class="fas fa-video text-secondary me-2"></i><strong>Productivity:</strong> Anyone editing or streaming welcomes every extra core (12+).
                               </p>
                           </div>
                           <div class="col-md-4">
-                              <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded shadow-sm" alt="CPU Chip Nahaufnahme">
+                              <img src="" class="img-fluid rounded shadow-sm" alt="CPU Chip Closeup">
                           </div>
                       </div>
                       
                       <div class="info-grid">
                         <div class="info-card bg-white">
-                          <h6 class="fw-bold"><i class="fas fa-microchip me-2"></i>Architektur-Check</h6>
+                          <h6 class="fw-bold"><i class="fas fa-microchip me-2"></i>Architecture Check</h6>
                           <p class="small text-muted mb-0">
-                            <strong>Intel (P- & E-Cores):</strong> Ein Mix aus Kraftprotzen für Spiele und sparsamen Kernen für Hintergrundkram. Braucht Windows 11, damit es rund läuft.<br>
-                            <strong>AMD (X3D):</strong> Die "3D V-Cache" Modelle haben einen riesigen Zwischenspeicher direkt auf dem Chip. Für Gamer aktuell oft die erste Wahl, weil es Ruckler minimiert.
+                            <strong>Intel (P- & E-Cores):</strong> A mix of powerhouses for gaming and efficient cores for background tasks. Needs Windows 11 to run smoothly.<br>
+                            <strong>AMD (X3D):</strong> The "3D V-Cache" models have a massive cache directly on the chip. Often the top choice for gamers right now as it minimizes stuttering.
                           </p>
                         </div>
                         <div class="info-card bg-white">
-                          <h6 class="fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Takt ist nicht alles</h6>
+                          <h6 class="fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Clock speed isn't everything</h6>
                           <p class="small text-muted mb-0">
-                            Lass dich nicht von GHz blenden. Eine moderne CPU mit 4 GHz zieht Kreise um einen alten 5 GHz Chip. Die Technik dahinter (IPC) macht den Unterschied.
+                            Don't be blinded by GHz. A modern 4 GHz CPU runs circles around an old 5 GHz chip. The underlying technology (IPC) makes the difference.
                           </p>
                         </div>
                       </div>
@@ -321,27 +331,27 @@
                   </div>
                 </div>
 
-                <!-- 2. GRAFIKKARTEN -->
+                <!-- 2. GRAPHICS CARDS -->
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingTwo">
                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                       Grafikkarten (GPU) – Pixelpower
+                       Graphics Cards (GPU) – Pixel Power
                     </button>
                   </h2>
                   <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionTheory">
                     <div class="accordion-body bg-light">
                       <div class="row mb-4">
                           <div class="col-md-4 order-md-2 mb-3 mb-md-0">
-                               <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded shadow-sm" alt="Modern Graphics Card">
+                               <img src="" class="img-fluid rounded shadow-sm" alt="Modern Graphics Card">
                           </div>
                           <div class="col-md-8 order-md-1">
-                              <h5 class="text-primary">VRAM – Wieviel Speicher braucht man?</h5>
+                              <h5 class="text-primary">VRAM – How much memory do you need?</h5>
                               <p class="text-muted">
-                                Der Grafikspeicher ist wie der Kofferraum für Texturen. Ist er voll, ruckelt es nach.
+                                Video memory is like the trunk for textures. If it's full, things stutter.
                                 <ul class="list-unstyled mt-2">
-                                    <li class="mb-2"><span class="badge bg-secondary me-2">8 GB</span> Reicht für Full HD (1080p), wird aber langsam knapp.</li>
-                                    <li class="mb-2"><span class="badge bg-secondary me-2">12 GB</span> Der Sweetspot für WQHD (1440p).</li>
-                                    <li><span class="badge bg-primary me-2">16 GB+</span> Pflichtprogramm für 4K-Genuss.</li>
+                                    <li class="mb-2"><span class="badge bg-secondary me-2">8 GB</span> Enough for Full HD (1080p), but getting tight.</li>
+                                    <li class="mb-2"><span class="badge bg-secondary me-2">12 GB</span> The sweet spot for WQHD (1440p).</li>
+                                    <li><span class="badge bg-primary me-2">16 GB+</span> Mandatory for 4K enjoyment.</li>
                                 </ul>
                               </p>
                           </div>
@@ -349,15 +359,15 @@
 
                       <div class="info-grid">
                         <div class="info-card bg-white">
-                          <h6 class="fw-bold"> DLSS & FSR (Upscaling)</h6>
+                          <h6 class="fw-bold">🚀 DLSS & FSR (Upscaling)</h6>
                           <p class="small text-muted mb-0">
-                            Der Zaubertrick: Die Karte berechnet das Bild kleiner (spart Leistung) und eine KI pustet es scharf auf. Sieht fast so gut aus wie nativ, bringt aber deutlich mehr FPS.
+                            The magic trick: The card renders the image smaller (saving power) and an AI blows it up sharp. Looks almost as good as native, but brings significantly more FPS.
                           </p>
                         </div>
                         <div class="info-card bg-white">
-                          <h6 class="fw-bold"> Raytracing</h6>
+                          <h6 class="fw-bold">💡 Raytracing</h6>
                           <p class="small text-muted mb-0">
-                            Echte Lichtstrahlen statt Fake-Schatten. Sieht fantastisch aus (Spiegelungen!), frisst aber Leistung zum Frühstück. Nvidia hat hier meist noch die Nase vorn.
+                            Real light rays instead of fake shadows. Looks fantastic (reflections!), but eats performance for breakfast. NVIDIA is usually still ahead here.
                           </p>
                         </div>
                       </div>
@@ -365,11 +375,11 @@
                   </div>
                 </div>
 
-                 <!-- 3. MAINBOARD & RAM -->
+                 <!-- 3. MOTHERBOARD & RAM -->
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingThree">
                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                       Mainboard & RAM
+                       Motherboard & RAM
                     </button>
                   </h2>
                   <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionTheory">
@@ -377,13 +387,13 @@
                       <div class="row">
                         <div class="col-md-6 mb-3">
                           <div class="card h-100 border-0 shadow-sm">
-                              <img src="https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="RAM Sticks" style="height: 150px; object-fit: cover;">
+                              <img src="" class="img-fluid rounded shadow-sm" alt="RAM Sticks" style="height: 150px; object-fit: cover;">
                               <div class="card-body">
-                                  <h5 class="text-primary card-title">RAM (Kurzzeitgedächtnis)</h5>
+                                  <h5 class="text-primary card-title">RAM (Short-term memory)</h5>
                                   <ul class="small text-muted list-unstyled">
-                                    <li class="mb-2"> <strong>Immer im Duo:</strong> Kauf immer ein Kit aus 2 Riegeln ("Dual Channel"). Einzeln verschenkst du Leistung.</li>
-                                    <li class="mb-2"> <strong>DDR5:</strong> Der neue Standard. Schnell, aber achte auf die Latenzen (CL30 ist top).</li>
-                                    <li> <strong>Wichtig:</strong> Nach dem Bau im BIOS "XMP" oder "EXPO" anschalten, sonst läuft der RAM auf Handbremse!</li>
+                                    <li class="mb-2"> <strong>Always Duo:</strong> Always buy a kit of 2 sticks ("Dual Channel"). Single sticks waste performance.</li>
+                                    <li class="mb-2"> <strong>DDR5:</strong> The new standard. Fast, but watch the latency (CL30 is top).</li>
+                                    <li> <strong>Important:</strong> Turn on "XMP" or "EXPO" in BIOS after building, otherwise RAM runs slow!</li>
                                   </ul>
                               </div>
                           </div>
@@ -391,11 +401,11 @@
                         <div class="col-md-6 mb-3">
                            <div class="card h-100 border-0 shadow-sm">
                               <div class="card-body">
-                                  <h5 class="text-primary card-title">Mainboard (Nervensystem)</h5>
+                                  <h5 class="text-primary card-title">Motherboard (Nervous System)</h5>
                                   <ul class="small text-muted">
-                                    <li class="mb-2"><strong>B-Serie (z.B. B650):</strong> Die Vernunftwahl. Hat alles, was Gamer brauchen.</li>
-                                    <li class="mb-2"><strong>Z/X-Serie:</strong> Nur für Leute, die übertakten wollen oder 10 SSDs brauchen.</li>
-                                    <li class="mb-2"><strong>VRM-Kühlung:</strong> Achte drauf, dass um den CPU-Sockel Metall-Kühlkörper sind. Nackte Platinen werden heiß.</li>
+                                    <li class="mb-2"><strong>B-Series (e.g. B650):</strong> The rational choice. Has everything gamers need.</li>
+                                    <li class="mb-2"><strong>Z/X-Series:</strong> Only for people who want to overclock or need 10 SSDs.</li>
+                                    <li class="mb-2"><strong>VRM Cooling:</strong> Make sure there are metal heatsinks around the CPU socket. Bare boards get hot.</li>
                                   </ul>
                               </div>
                           </div>
@@ -405,45 +415,45 @@
                   </div>
                 </div>
 
-                <!-- 4. SPEICHER -->
+                <!-- 4. STORAGE -->
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingFour">
                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
-                       SSD & Speicher – Nie mehr Ladebalken
+                       SSD & Storage – No more loading bars
                     </button>
                   </h2>
                   <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionTheory">
                     <div class="accordion-body bg-light">
                         <div class="row align-items-center mb-3">
                             <div class="col-md-3">
-                                <!-- FIX: Neues Bild für SSD -->
-                                <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded shadow-sm" alt="M.2 NVMe SSD installed on motherboard">
+                                <!-- FIX: New Image for SSD -->
+                                <img src="" class="img-fluid rounded shadow-sm" alt="M.2 NVMe SSD installed on motherboard">
                             </div>
                             <div class="col-md-9">
-                                <p class="small text-muted">Vergiss alte Festplatten (HDDs) für Spiele. Die bremsen nur. M.2 NVMe ist der Standard.</p>
+                                <p class="small text-muted">Forget old hard drives (HDDs) for games. They just slow you down. M.2 NVMe is the standard.</p>
                                 <table class="table table-sm table-bordered bg-white small mb-0">
                                     <thead class="table-light">
                                     <tr>
                                         <th>Tech</th>
                                         <th>Speed</th>
-                                        <th>Fazit</th>
+                                        <th>Verdict</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
                                         <td>SATA SSD</td>
                                         <td>~500 MB/s</td>
-                                        <td>Okay als Datengrab, aber veraltet.</td>
+                                        <td>Okay for mass storage, but outdated.</td>
                                     </tr>
                                     <tr>
                                         <td><strong>NVMe PCIe 4.0</strong></td>
                                         <td>~7.000 MB/s</td>
-                                        <td><strong>Der Sweetspot. Kaufen!</strong></td>
+                                        <td><strong>The Sweetspot. Buy!</strong></td>
                                     </tr>
                                     <tr>
                                         <td>NVMe PCIe 5.0</td>
                                         <td>~12.000+ MB/s</td>
-                                        <td>Teuer, heiß und im Alltag kaum spürbar schneller.</td>
+                                        <td>Expensive, hot, and barely noticeably faster in daily use.</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -453,31 +463,31 @@
                   </div>
                 </div>
 
-                <!-- 5. MONITORE -->
+                <!-- 5. MONITORS -->
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingMonitor">
                       <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMonitor">
-                         Monitor
+                         Monitor – Your Window to the Game
                       </button>
                     </h2>
                     <div id="collapseMonitor" class="accordion-collapse collapse" data-bs-parent="#accordionTheory">
                       <div class="accordion-body bg-light">
                         <div class="row">
                             <div class="col-md-4 mb-3 mb-md-0">
-                                <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded shadow-sm" alt="Gaming Setup Monitor">
+                                <img src="" class="img-fluid rounded shadow-sm" alt="Gaming Setup Monitor">
                             </div>
                             <div class="col-md-8">
                                 <h6 class="fw-bold text-dark">IPS vs. OLED</h6>
                                 <p class="small text-muted">
-                                    <strong>IPS</strong> ist der Standard: Gute Farben, faire Preise. <br>
-                                    <strong>OLED</strong> ist Luxus: Perfektes Schwarz, irre schnell, aber teurer und man muss etwas aufpassen (Burn-In).
+                                    <strong>IPS</strong> is the standard: Good colors, fair prices. <br>
+                                    <strong>OLED</strong> is luxury: Perfect black, insanely fast, but more expensive and requires some care (burn-in).
                                 </p>
-                                <h6 class="fw-bold text-dark mt-3">Auflösung & Hz</h6>
+                                <h6 class="fw-bold text-dark mt-3">Resolution & Hz</h6>
                                 <p class="small text-muted">
-                                    Unter <strong>144 Hz</strong> geht heute nichts mehr beim Zocken.
-                                    <br>• <strong>Full HD (1080p):</strong> Okay für Budget & Shooter.
-                                    <br>• <strong>WQHD (1440p):</strong> Der beste Kompromiss aus Schärfe & Leistung.
-                                    <br>• <strong>4K (UHD):</strong> Sieht mega aus, braucht aber eine Grafikkarte vom Kaliber einer RTX 4080/4090.
+                                    Below <strong>144 Hz</strong> is a no-go for gaming today.
+                                    <br>• <strong>Full HD (1080p):</strong> Okay for budget & shooters.
+                                    <br>• <strong>WQHD (1440p):</strong> The best compromise of sharpness & performance.
+                                    <br>• <strong>4K (UHD):</strong> Looks mega, but needs a graphics card the caliber of an RTX 4080/4090.
                                 </p>
                             </div>
                         </div>
@@ -485,11 +495,11 @@
                     </div>
                   </div>
 
-                 <!-- 6. PERIPHERIE -->
+                 <!-- 6. PERIPHERALS -->
                  <div class="accordion-item">
                     <h2 class="accordion-header" id="headingPeripherie">
                       <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePeripherie">
-                         Maus & Tastatur
+                         Mouse & Keyboard
                       </button>
                     </h2>
                     <div id="collapsePeripherie" class="accordion-collapse collapse" data-bs-parent="#accordionTheory">
@@ -498,100 +508,100 @@
                             <div class="col-md-8">
                                 <div class="info-grid">
                                     <div class="info-card bg-white">
-                                        <h6>Mechanische Tastaturen</h6>
+                                        <h6>Mechanical Keyboards</h6>
                                         <p class="small text-muted mb-0">
-                                            Das Gefühl entscheidet. <strong>Red</strong> Switches sind linear und schnell (kein Klicken). <strong>Blue</strong> machen Krach (Clicky). <strong>Brown</strong> sind ein guter Mittelweg.
+                                            The feel decides. <strong>Red</strong> switches are linear and fast (no click). <strong>Blue</strong> are noisy (clicky). <strong>Brown</strong> are a good middle ground.
                                         </p>
                                     </div>
                                     <div class="info-card bg-white">
-                                        <h6>Mäuse</h6>
+                                        <h6>Mice</h6>
                                         <p class="small text-muted mb-0">
-                                            DPI-Zahlen von 25.000 sind Marketing-Quatsch. Wichtiger: Eine gute Form und wenig Gewicht (unter 70g ist Trend für Shooter). Kabellos ist mittlerweile genauso schnell wie mit Kabel.
+                                            DPI numbers of 25,000 are marketing nonsense. More important: A good shape and low weight (under 70g is trendy for shooters). Wireless is just as fast as wired nowadays.
                                         </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4 mt-3 mt-md-0">
-                                <img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded shadow-sm" alt="Mechanical Keyboard closeup">
+                                <img src="" class="img-fluid rounded shadow-sm" alt="Mechanical Keyboard closeup">
                             </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                 <!-- 7. NETZTEIL -->
+                 <!-- 7. POWER SUPPLY -->
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingFive">
                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
-                       Netzteil
+                       Power Supply – Don't buy cheap junk
                     </button>
                   </h2>
                   <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionTheory">
                     <div class="accordion-body bg-light">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <p class="small text-muted fw-bold">Wer hier spart, zahlt doppelt. Ein schlechtes Netzteil kann deinen ganzen PC grillen.</p>
+                                <p class="small text-muted fw-bold">Those who save here pay twice. A bad power supply can grill your whole PC.</p>
                                 <div class="row g-3">
                                     <div class="col-sm-6">
                                         <div class="p-3 bg-white border rounded h-100">
                                             <strong>80 PLUS Gold</strong>
-                                            <p class="small text-muted mb-0 mt-1">Achte auf dieses Siegel. Es garantiert gute Effizienz und meist ordentliche Bauteile.</p>
+                                            <p class="small text-muted mb-0 mt-1">Look for this seal. It guarantees good efficiency and usually decent components.</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="p-3 bg-white border rounded h-100">
                                             <strong>ATX 3.0 Standard</strong>
-                                            <p class="small text-muted mb-0 mt-1">Wichtig für moderne Grafikkarten. Hat das neue 12VHPWR-Kabel direkt dabei – tschüss Adapter!</p>
+                                            <p class="small text-muted mb-0 mt-1">Important for modern graphics cards. Includes the new 12VHPWR cable directly – bye bye adapters!</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4 mt-3 mt-md-0">
-                                <!-- FIX: Neues Bild für Netzteil -->
-                                <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded shadow-sm" alt="PC Cables and PSU">
+                                <!-- FIX: New Image for Power Supply -->
+                                <img src="" class="img-fluid rounded shadow-sm" alt="PC Cables and PSU">
                             </div>
                         </div>
                     </div>
                   </div>
                 </div>
 
-                <!-- 8. QUELLEN & LINKS (ERWEITERT) -->
+                <!-- 8. SOURCES & LINKS -->
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingSeven">
                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven">
-                       Quellen & Deep-Dives
+                       Sources & Deep Dives
                     </button>
                   </h2>
                   <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionTheory">
                     <div class="accordion-body">
-                      <p class="small text-muted">Hier holen wir uns unsere Infos. Ehrliche Tests ohne Marketing-BlaBla.</p>
+                      <p class="small text-muted">Here we get our info. Honest tests without marketing blah-blah.</p>
                       
-                      <h6 class="text-uppercase text-secondary small fw-bold mt-3 mb-2">Die Bibel (Foren & Seiten)</h6>
+                      <h6 class="text-uppercase text-secondary small fw-bold mt-3 mb-2">The Bible (Forums & Sites)</h6>
                       <ul class="list-group list-group-flush small mb-3">
                         <li class="list-group-item">
-                            <span class="source-badge">DE</span> <strong>ComputerBase:</strong> <a href="https://www.computerbase.de/forum/threads/der-ideale-gaming-pc-spiele-pc-selbst-zusammenstellen.215394/" target="_blank">FAQ "Der ideale Gaming-PC"</a> (Pflichtlektüre!)
+                            <span class="source-badge">DE</span> <strong>ComputerBase:</strong> <a href="https://www.computerbase.de/forum/threads/der-ideale-gaming-pc-spiele-pc-selbst-zusammenstellen.215394/" target="_blank">FAQ "The Ideal Gaming PC"</a> (Must read!)
                         </li>
                         <li class="list-group-item">
                             <span class="source-badge">DE</span> <strong>HardwareLuxx:</strong> <a href="https://www.hardwareluxx.de/" target="_blank">News & Community Tests</a> 
                         </li>
                         <li class="list-group-item">
-                            <span class="source-badge">US</span> <strong>PCPartPicker:</strong> <a href="https://pcpartpicker.com/" target="_blank">Der Bau-Simulator</a> (prüft ob alles passt)
+                            <span class="source-badge">US</span> <strong>PCPartPicker:</strong> <a href="https://pcpartpicker.com/" target="_blank">The Build Simulator</a> (checks if everything fits)
                         </li>
                       </ul>
 
-                      <h6 class="text-uppercase text-secondary small fw-bold mt-3 mb-2">YouTube (Tests & Analysen)</h6>
+                      <h6 class="text-uppercase text-secondary small fw-bold mt-3 mb-2">YouTube (Tests & Analysis)</h6>
                       <ul class="list-group list-group-flush small">
                           <li class="list-group-item">
-                              <span class="source-badge">US</span> <strong>Gamers Nexus:</strong> <a href="https://www.youtube.com/user/GamersNexus" target="_blank">Tech Jesus</a> (Extrem detaillierte, kritische Tests)
+                              <span class="source-badge">US</span> <strong>Gamers Nexus:</strong> <a href="https://www.youtube.com/user/GamersNexus" target="_blank">Tech Jesus</a> (Extremely detailed, critical tests)
                           </li>
                           <li class="list-group-item">
-                              <span class="source-badge">US</span> <strong>Hardware Unboxed:</strong> <a href="https://www.youtube.com/channel/UCI8iQa1hv7Kuo_7uz6QCuVQ" target="_blank">Monitor- & GPU-Benchmarks</a>
+                              <span class="source-badge">US</span> <strong>Hardware Unboxed:</strong> <a href="https://www.youtube.com/channel/UCI8iQa1hv7Kuo_7uz6QCuVQ" target="_blank">Monitor & GPU Benchmarks</a>
                           </li>
                            <li class="list-group-item">
-                              <span class="source-badge">DE</span> <strong>Der8auer:</strong> <a href="https://www.youtube.com/user/der8auer" target="_blank">Overclocking & Ingenieurs-Blick</a>
+                              <span class="source-badge">DE</span> <strong>Der8auer:</strong> <a href="https://www.youtube.com/user/der8auer" target="_blank">Overclocking & Engineering View</a>
                           </li>
                            <li class="list-group-item">
-                              <span class="source-badge">DE</span> <strong>Igor's Lab:</strong> <a href="https://www.igorslab.de/" target="_blank">Elektronik-Analysen</a> (Wenn du es ganz genau wissen willst)
+                              <span class="source-badge">DE</span> <strong>Igor's Lab:</strong> <a href="https://www.igorslab.de/" target="_blank">Electronics Analysis</a> (If you want to know exactly)
                           </li>
                       </ul>
 
@@ -606,100 +616,100 @@
         </div>
       </div>
 
-      <!-- === FAQ TAB (NEU SEPARAT) === -->
+      <!-- === FAQ TAB === -->
       <div class="tab-pane fade" id="faq-content" role="tabpanel">
         <div class="row">
             <div class="col-lg-10 mx-auto">
                 <div class="card p-5 shadow-sm border-0">
-                    <h3 class="fw-bold mb-4 text-center">Erste Hilfe Kasten</h3>
-                    <p class="text-center text-muted mb-5">Keine Panik. Die meisten Probleme beim PC-Bau sind Klassiker und leicht zu lösen.</p>
+                    <h3 class="fw-bold mb-4 text-center">First Aid Kit</h3>
+                    <p class="text-center text-muted mb-5">Don't panic. Most PC building problems are classics and easy to solve.</p>
                     
                     <div class="accordion accordion-flush" id="faqAccordion">
                         
-                        <!-- Frage 1 -->
+                        <!-- Question 1 -->
                         <div class="accordion-item border mb-3 rounded overflow-hidden">
                           <h2 class="accordion-header" id="faqHeadingOne">
                             <button class="accordion-button collapsed fw-bold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne">
-                               Der PC startet nicht (Schwarzer Bildschirm)
+                               The PC won't start (Black Screen)
                             </button>
                           </h2>
                           <div id="faqCollapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                               <ol class="small text-muted mb-0">
-                                <li class="mb-2"><strong>Debug-LEDs:</strong> Schau aufs Mainboard (meist rechts oben). Leuchtet da eine kleine Lampe (CPU, DRAM, VGA)? Das verrät dir den Schuldigen.</li>
-                                <li class="mb-2"><strong>Monitor-Kabel:</strong> Klassiker-Fehler. Das Kabel muss unten in die <em>Grafikkarte</em>, nicht oben ins Mainboard!</li>
-                                <li class="mb-2"><strong>Strom:</strong> Sitzt der dicke 24-Pin Stecker und der 8-Pin CPU Stecker (oben links) wirklich bombenfest?</li>
-                                <li><strong>RAM:</strong> Speicher muss oft mit ordentlich Kraft reingedrückt werden, bis es laut "Klick" macht.</li>
+                                <li class="mb-2"><strong>Debug LEDs:</strong> Look at the motherboard (usually top right). Is a small light on (CPU, DRAM, VGA)? That reveals the culprit.</li>
+                                <li class="mb-2"><strong>Monitor Cable:</strong> Classic mistake. The cable must go into the <em>graphics card</em> at the bottom, not the motherboard at the top!</li>
+                                <li class="mb-2"><strong>Power:</strong> Are the thick 24-pin connector and the 8-pin CPU connector (top left) really tight?</li>
+                                <li><strong>RAM:</strong> Memory often needs to be pushed in with decent force until it clicks loudly.</li>
                               </ol>
                             </div>
                           </div>
                         </div>
 
-                        <!-- Frage 2 -->
+                        <!-- Question 2 -->
                          <div class="accordion-item border mb-3 rounded overflow-hidden">
                           <h2 class="accordion-header" id="faqHeadingTwo">
                             <button class="accordion-button collapsed fw-bold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo">
-                               Warum ist mein RAM so langsam (4800 MHz statt 6000)?
+                               Why is my RAM so slow (4800 MHz instead of 6000)?
                             </button>
                           </h2>
                           <div id="faqCollapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 <p class="small text-muted">
-                                    Keine Sorge, nichts kaputt. DDR5 läuft ab Werk immer erstmal im Sicherheits-Modus.
+                                    No worries, nothing broken. DDR5 always runs in safety mode out of the box.
                                     <br><br>
-                                    <strong>Lösung:</strong> Geh ins BIOS (beim Start 'Entf' oder 'F2' hämmern) und aktiviere das Profil <strong>XMP</strong> (Intel) oder <strong>EXPO</strong> (AMD). Speichern & Neustart (F10) – fertig.
+                                    <strong>Solution:</strong> Go into BIOS (hammer 'Del' or 'F2' at start) and activate the profile <strong>XMP</strong> (Intel) or <strong>EXPO</strong> (AMD). Save & Restart (F10) – done.
                                 </p>
                             </div>
                           </div>
                         </div>
 
-                        <!-- Frage 3 -->
+                        <!-- Question 3 -->
                         <div class="accordion-item border mb-3 rounded overflow-hidden">
                           <h2 class="accordion-header" id="faqHeadingThree">
                             <button class="accordion-button collapsed fw-bold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree">
-                               Wie installiere ich Windows ohne Laufwerk?
+                               How do I install Windows without a drive?
                             </button>
                           </h2>
                           <div id="faqCollapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 <p class="small text-muted">
-                                    DVDs sind tot. Du brauchst einen USB-Stick (8GB+).
-                                    <br>Google an einem anderen PC nach "Windows Media Creation Tool". Das Programm macht deinen Stick bootfähig.
-                                    <br>Stick in den neuen PC -> Anschalten -> Vom Stick booten -> Installieren.
+                                    DVDs are dead. You need a USB stick (8GB+).
+                                    <br>Google "Windows Media Creation Tool" on another PC. The program makes your stick bootable.
+                                    <br>Stick in the new PC -> Turn on -> Boot from stick -> Install.
                                 </p>
                             </div>
                           </div>
                         </div>
 
-                        <!-- Frage 4 -->
+                        <!-- Question 4 -->
                         <div class="accordion-item border mb-3 rounded overflow-hidden">
                           <h2 class="accordion-header" id="faqHeadingFour">
                             <button class="accordion-button collapsed fw-bold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseFour">
-                               Grafikkarte macht komische Geräusche (Spulenfiepen)
+                               Graphics card making weird noises (Coil Whine)
                             </button>
                           </h2>
                           <div id="faqCollapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 <p class="small text-muted">
-                                    Hört sich an wie ein elektrisches Surren? Das ist "Coil Whine". Physikalisch bedingt und leider kein Defekt (Umtausch ist Kulanz).
-                                    <br><strong>Trick:</strong> Begrenze die FPS in Spielen auf deine Monitor-Hz (z.B. 144). Weniger Last = weniger Fiepen.
+                                    Sounds like an electrical buzz? That's "Coil Whine". Physically caused and unfortunately not a defect (exchange is goodwill).
+                                    <br><strong>Trick:</strong> Limit FPS in games to your monitor Hz (e.g. 144). Less load = less whine.
                                 </p>
                             </div>
                           </div>
                         </div>
 
-                        <!-- Frage 5 -->
+                        <!-- Question 5 -->
                         <div class="accordion-item border mb-3 rounded overflow-hidden">
                           <h2 class="accordion-header" id="faqHeadingFive">
                             <button class="accordion-button collapsed fw-bold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseFive">
-                               Win 10 oder Win 11?
+                               Win 10 or Win 11?
                             </button>
                           </h2>
                           <div id="faqCollapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 <p class="small text-muted">
-                                    Kurz gesagt: <strong>Nimm Windows 11.</strong>
-                                    <br>Besonders wenn du eine neuere Intel CPU hast, brauchst du Win 11, damit der PC weiß, welche Kerne er für Spiele nutzen soll ("Thread Director"). Auch HDR sieht in 11 viel besser aus.
+                                    Short answer: <strong>Take Windows 11.</strong>
+                                    <br>Especially if you have a newer Intel CPU, you need Win 11 so the PC knows which cores to use for games ("Thread Director"). HDR also looks much better in 11.
                                 </p>
                             </div>
                           </div>
@@ -711,13 +721,13 @@
         </div>
       </div>
 
-       <!-- === NEWS TAB (TEMPLATE STYLE) === -->
+       <!-- === NEWS TAB === -->
        <div class="tab-pane fade" id="news-content" role="tabpanel">
         <div class="container pb-5">
             <div class="text-center mb-5">
                  <h2 class="fw-bold display-6">Tech News Feed</h2>
-                 <p class="text-muted">Aktuelle Entwicklungen aus der Hardware-Branche.</p>
-                 <span class="badge bg-secondary">Platzhalter Layout</span>
+                 <p class="text-muted">Current developments from the hardware industry.</p>
+                 <span class="badge bg-secondary">Placeholder Layout</span>
             </div>
 
             <div class="row g-4">
@@ -726,14 +736,14 @@
                 <div class="col-md-4">
                     <div class="card news-card h-100 shadow-sm border-0 overflow-hidden">
                         <div class="position-relative">
-                             <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Technology Abstract" style="height: 200px; object-fit: cover;">
+                             <img src="[Image of Technology Abstract]" class="card-img-top" alt="Technology Abstract" style="height: 200px; object-fit: cover;">
                              <span class="news-tag">Hardware</span>
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <small class="text-muted mb-2">Datum: TT.MM.JJJJ</small>
-                            <h5 class="card-title fw-bold">Artikel Überschrift Platzhalter #1</h5>
+                            <small class="text-muted mb-2">Date: DD.MM.YYYY</small>
+                            <h5 class="card-title fw-bold">Article Headline Placeholder #1</h5>
                             <p class="card-text small text-muted flex-grow-1">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary mt-3 stretched-link">Weiterlesen</a>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-3 stretched-link">Read more</a>
                         </div>
                     </div>
                 </div>
@@ -742,14 +752,14 @@
                 <div class="col-md-4">
                     <div class="card news-card h-100 shadow-sm border-0 overflow-hidden">
                         <div class="position-relative">
-                             <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Electronics" style="height: 200px; object-fit: cover;">
+                             <img src="[Image of Electronics]" class="card-img-top" alt="Electronics" style="height: 200px; object-fit: cover;">
                              <span class="news-tag">Gaming</span>
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <small class="text-muted mb-2">Datum: TT.MM.JJJJ</small>
-                            <h5 class="card-title fw-bold">Artikel Überschrift Platzhalter #2</h5>
+                            <small class="text-muted mb-2">Date: DD.MM.YYYY</small>
+                            <h5 class="card-title fw-bold">Article Headline Placeholder #2</h5>
                             <p class="card-text small text-muted flex-grow-1">At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary mt-3 stretched-link">Weiterlesen</a>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-3 stretched-link">Read more</a>
                         </div>
                     </div>
                 </div>
@@ -758,14 +768,14 @@
                 <div class="col-md-4">
                     <div class="card news-card h-100 shadow-sm border-0 overflow-hidden">
                         <div class="position-relative">
-                             <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Coding Screen" style="height: 200px; object-fit: cover;">
+                             <img src="[Image of Coding Screen]" class="card-img-top" alt="Coding Screen" style="height: 200px; object-fit: cover;">
                              <span class="news-tag">Software</span>
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <small class="text-muted mb-2">Datum: TT.MM.JJJJ</small>
-                            <h5 class="card-title fw-bold">Artikel Überschrift Platzhalter #3</h5>
+                            <small class="text-muted mb-2">Date: DD.MM.YYYY</small>
+                            <h5 class="card-title fw-bold">Article Headline Placeholder #3</h5>
                             <p class="card-text small text-muted flex-grow-1">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary mt-3 stretched-link">Weiterlesen</a>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-3 stretched-link">Read more</a>
                         </div>
                     </div>
                 </div>
@@ -782,34 +792,34 @@
   <footer class="bg-dark text-light mt-auto pt-5 pb-3">
     <div class="container">
       <div class="row">
-        <!-- Spalte 1: Projekt -->
+        <!-- Col 1: Project -->
         <div class="col-md-4 mb-4">
-          <h5 class="text-uppercase fw-bold text-primary mb-3">Über das Projekt</h5>
+          <h5 class="text-uppercase fw-bold text-primary mb-3">About the Project</h5>
           <p class="small text-white-50">
-            Ein moderner PC-Konfigurator, erstellt als Schulprojekt. Unser Ziel ist es, Hardware-Auswahl durch AI-Unterstützung und Expertenwissen zu vereinfachen.
+            A modern PC configurator, created as a school project. Our goal is to simplify hardware selection through AI support and expert knowledge.
           </p>
           <p class="small text-white-50">© 2025 David Leitner & Maximilian Baumgartner</p>
         </div>
         
-        <!-- Spalte 2: Quick Links -->
+        <!-- Col 2: Quick Links -->
         <div class="col-md-4 mb-4">
           <h5 class="text-uppercase fw-bold text-primary mb-3">Links</h5>
           <ul class="list-unstyled small">
-            <li class="mb-2"><a href="#" onclick="document.getElementById('builder-tab').click()" class="text-white-50 text-decoration-none hover-white">Konfigurator</a></li>
-            <li class="mb-2"><a href="#" onclick="document.getElementById('theory-tab').click()" class="text-white-50 text-decoration-none hover-white">Experten-Wissen</a></li>
-            <li class="mb-2"><a href="https://www.idealo.de" target="_blank" class="text-white-50 text-decoration-none hover-white">Preisvergleich</a></li>
+            <li class="mb-2"><a href="#" onclick="document.getElementById('builder-tab').click()" class="text-white-50 text-decoration-none hover-white">Configurator</a></li>
+            <li class="mb-2"><a href="#" onclick="document.getElementById('theory-tab').click()" class="text-white-50 text-decoration-none hover-white">Expert Knowledge</a></li>
+            <li class="mb-2"><a href="https://www.idealo.de" target="_blank" class="text-white-50 text-decoration-none hover-white">Price Comparison</a></li>
           </ul>
         </div>
 
-        <!-- Spalte 3: Rechtliches/Kontakt -->
+        <!-- Col 3: Legal/Contact -->
         <div class="col-md-4 mb-4">
-          <h5 class="text-uppercase fw-bold text-primary mb-3">Kontakt & Info</h5>
+          <h5 class="text-uppercase fw-bold text-primary mb-3">Contact & Info</h5>
           <ul class="list-unstyled small text-white-50">
-            <li class="mb-2"> Leonding, Österreich</li>
+            <li class="mb-2"> Leonding, Austria</li>
             <li class="mb-2"> d.leitner@students.htl-leonding.ac.at</li>
             <li class="mb-2"> m.baumgartner1@students.htl-leonding.ac.at</li>
             <li class="mb-2"> Github Repository</li>
-            <li class="mt-3"><a href="#" class="text-white-50">Impressum</a> | <a href="#" class="text-white-50">Datenschutz</a></li>
+            <li class="mt-3"><a href="#" class="text-white-50">Imprint</a> | <a href="#" class="text-white-50">Privacy</a></li>
           </ul>
         </div>
       </div>
@@ -817,7 +827,7 @@
       <div class="text-center small text-secondary">
       </div>
     </div>
-    <!-- Platzhalter damit der Sticky-Price-Bar nichts verdeckt -->
+    <!-- Placeholder so sticky price bar doesn't cover anything -->
     <div style="height: 80px;"></div>
   </footer>
 
@@ -825,22 +835,20 @@
   <div class="sticky-price-bar">
     <div class="container d-flex justify-content-between align-items-center">
       <div>
-        <div class="total-label">Gesamtpreis</div>
-        <small class="text-muted d-none d-md-block">Inkl. MwSt. (Schätzung)</small>
+        <div class="total-label">Total Price</div>
+        <small class="text-muted d-none d-md-block">Incl. VAT (Estimate)</small>
       </div>
       <div class="d-flex align-items-center">
         <span class="total-price"><span id="total">0.00</span> €</span>
-        <!-- DRUCKEN BUTTON ENTFERNT -->
+        <!-- PRINT BUTTON REMOVED -->
       </div>
     </div>
   </div>
 
-  <!-- Skripte -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   
-  <!-- ZUERST Config laden, DANN das Script -->
-  <script src="config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
