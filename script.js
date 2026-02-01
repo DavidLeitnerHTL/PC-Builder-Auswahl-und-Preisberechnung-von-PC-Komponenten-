@@ -210,7 +210,8 @@ async function callGemini(prompt) {
          return "Fehler: API Key fehlt in config.js.";
     }
     
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+    // WICHTIG: Wechsel auf das stabile 1.5-Modell, um 403/404 Fehler zu vermeiden
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
     
     const payload = {
         contents: [{ parts: [{ text: prompt }] }]
@@ -225,12 +226,20 @@ async function callGemini(prompt) {
                 body: JSON.stringify(payload)
             });
 
-            if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                console.error("API Error Details:", errorData);
+                // Gibt den genauen Fehlergrund zurück (z.B. 403 Forbidden)
+                throw new Error(`Google API Fehler: ${response.status} (${response.statusText}). Prüfe API-Key & Domain-Liste.`);
+            }
+            
             const data = await response.json();
             return data.candidates[0].content.parts[0].text;
         } catch (error) {
-            console.error(error);
-            if (i === delays.length) return "Fehler: KI antwortet nicht. Bitte später versuchen.";
+            console.error("Fetch Fehler:", error);
+            if (i === delays.length) {
+                return `Es gab ein Problem: ${error.message}`;
+            }
             await new Promise(resolve => setTimeout(resolve, delays[i]));
         }
     }
