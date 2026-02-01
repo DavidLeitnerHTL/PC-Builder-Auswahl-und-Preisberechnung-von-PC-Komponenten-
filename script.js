@@ -211,9 +211,11 @@ async function callGemini(prompt) {
          return "Fehler: API Key fehlt. Bitte überprüfe die config.js Datei.";
     }
     
-    // 2. Explizite Modell-Version nutzen um 404 Fehler zu vermeiden
-    // gemini-1.5-flash-001 ist eine stabile Version
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-001:generateContent?key=${apiKey}`;
+    const cleanKey = apiKey.trim();
+
+    // 2. Modell: Wir nutzen den Standard-Alias "gemini-1.5-flash" ohne Versionsnummer (-001).
+    // Das behebt meistens den 404 Fehler.
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
     
     const payload = {
         contents: [{ parts: [{ text: prompt }] }]
@@ -232,9 +234,9 @@ async function callGemini(prompt) {
                 const errorData = await response.json().catch(() => ({}));
                 console.error("API Error Details:", errorData);
                 
-                // Spezialbehandlung für den 403 Referer Fehler (Requests from referer null are blocked)
+                // Spezialbehandlung für den 403 Referer Fehler
                 if (response.status === 403 && (errorData.error?.message?.includes("referer") || errorData.error?.status === "PERMISSION_DENIED")) {
-                    throw new Error(`Google API Blockiert (Referer Null). Das passiert meistens, wenn du die Datei lokal öffnest (file://). Bitte teste auf Vercel oder entferne vorübergehend die Domain-Einschränkungen im Google API Dashboard.`);
+                    throw new Error(`Google API Blockiert (Referer). Bitte teste auf Vercel oder deaktiviere die Domain-Einschränkung kurzzeitig.`);
                 }
 
                 // Gibt den genauen Fehlergrund zurück
