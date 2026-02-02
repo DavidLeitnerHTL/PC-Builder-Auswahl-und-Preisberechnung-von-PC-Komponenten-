@@ -288,30 +288,31 @@ function toggleExpandedView() {
     
     if(!hwCol || !aiCol) return;
 
-    // Prüfen ob bereits expandiert
-    // Wir nutzen eine Klasse am AI Column als Marker oder prüfen die Klassen direkt
-    const isExpanded = aiCol.classList.contains('col-lg-8');
+    // Prüfen ob bereits expandiert (Wir nutzen jetzt die Klasse 'col-closed')
+    const isExpanded = hwCol.classList.contains('col-closed');
 
     if (isExpanded) {
-        // Zurück zum Standard (Hardware groß, AI klein)
-        hwCol.className = 'col-lg-8 transition-col';
-        aiCol.className = 'col-lg-4 transition-col';
+        // ZURÜCK ZUM NORMALZUSTAND
+        // 1. Hardware Spalte sichtbar machen (col-8)
+        hwCol.classList.remove('col-closed');
+        hwCol.classList.add('col-lg-8');
         
-        // Buttons resetten
-        if(btnResize) btnResize.style.display = 'inline-block';
-        if(btnClose) btnClose.style.display = 'none';
-        
-        if(wrapper) wrapper.classList.remove('expanded'); // Nur zur Sicherheit
+        // 2. AI Spalte wieder normal (col-4)
+        aiCol.classList.remove('col-lg-12');
+        aiCol.classList.add('col-lg-4');
+
+        resetButtons(false);
     } else {
-        // Expandieren (Hardware klein, AI groß)
-        hwCol.className = 'col-lg-4 transition-col';
-        aiCol.className = 'col-lg-8 transition-col';
+        // EXPANDIEREN (Hardware wegschieben)
+        // 1. Hardware Spalte schließen (width: 0)
+        hwCol.classList.remove('col-lg-8');
+        hwCol.classList.add('col-closed');
         
-        // Buttons resetten
-        if(btnResize) btnResize.style.display = 'none';
-        if(btnClose) btnClose.style.display = 'inline-block';
-        
-        if(wrapper) wrapper.classList.remove('expanded'); // Popup Klasse entfernen, falls sie noch da ist
+        // 2. AI Spalte auf volle Breite
+        aiCol.classList.remove('col-lg-4');
+        aiCol.classList.add('col-lg-12');
+
+        resetButtons(true);
     }
 }
 

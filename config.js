@@ -1,3 +1,3 @@
 const CONFIG = {
-    GEMINI_API_KEY: "Your API Key"
+    GEMINI_API_KEY: "Your_Gemini_API_Key_Here"
 };

@@ -98,10 +98,37 @@ footer {
 
 .ai-buttons-container { position: absolute; top: 10px; right: 10px; z-index: 10; }
 
-/* Transition für Spaltenwechsel */
+/* === Column Transitions & Animations === */
+
+/* Basis Transition für die Spalten */
 .transition-col {
-    transition: flex 0.4s ease, max-width 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Smoother Ease-Out */
+    overflow: hidden; /* Wichtig, damit Inhalt beim Verkleinern abgeschnitten wird */
 }
+
+/* Klasse zum kompletten Schließen einer Spalte (Breite 0) */
+.col-closed {
+    flex: 0 0 0% !important;
+    width: 0% !important;
+    max-width: 0% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
+    opacity: 0;
+}
+
+/* WICHTIG: Verhindert, dass der Inhalt (Tabelle) während der Animation 
+   zusammengequetscht wird. Wir zwingen den Inhalt, seine Breite zu behalten. */
+#hardware-column > * {
+    min-width: 800px; /* Breite der Tabelle bleibt erhalten -> Slide-Effekt */
+    transition: opacity 0.3s ease;
+}
+
+/* Wenn geschlossen, Inhalt transparent machen */
+.col-closed > * {
+    opacity: 0;
+}
+
 
 /* Loading Spinner */
 .ai-loading {
