@@ -1,54 +1,94 @@
-# **PC-Konfigurator Ultimate AI-Edition**
+PC Builder
+==========
 
-**Teammitglieder** David Leitner, Maximilian Baumgartner
+**Teammitglieder**
 
-**Projekt:** Intelligenter PC-Konfigurator mit AI-Beratung und Expertenwissen
+David Leitner, Maximilian Baumgartner
 
-## **Ausgangssituation / Problemstellung**
+Ausgangssituation
+-----------------
 
-Viele PC-Käufer sind mit der Fülle an Hardware-Optionen überfordert. Sie wissen nicht, ob Teile zusammenpassen, wie viel Leistung sie wirklich brauchen oder ob das Netzteil ausreicht. Statische Konfiguratoren bieten hier oft keine aktive Hilfestellung.
+PCs selbst zu bauen ist kompliziert geworden. Es gibt ständig neue Teile (wie RTX 50er Karten oder DDR5 RAM) und man verliert schnell den Überblick. Viele Leute wissen nicht, was zusammenpasst, und kaufen oft das Falsche oder geben zu viel Geld aus.
 
-**Lösung:** Eine moderne Web-App, die nicht nur Preise addiert, sondern den Nutzer mittels **Künstlicher Intelligenz (Gemini API)** aktiv berät und auf Fehler hinweist.
+Projektziele & Nicht-Ziele
+--------------------------
 
-## **Projektziele & Features**
+**Das wollen wir erreichen (Ziele):**
 
-**Kernfunktionen:**
+*   Einen einfachen Web-Konfigurator für aktuelle PC-Hardware (Stand 2026) bauen.
+    
+*   "1-Click-Presets" anbieten: Fertige Listen für Budget, Mittelklasse und High-End.
+    
+*   Einen KI-Assistenten (Google Gemini) einbauen, der Fragen beantwortet.
+    
+*   **Neu:** Einen Webscraper entwickeln, der Preise und technische Daten (wie Watt oder VRAM) automatisch von Seiten wie Geizhals oder Amazon holt.
+    
+*   Der Preis soll sich sofort aktualisieren, wenn man etwas ändert.
+    
 
-* 🛠 **Konfigurator:** Auswahl von CPU, GPU, RAM, SSD, Mainboard, Kühler und Gehäuse.  
-* 💶 **Echtzeit-Kalkulation:** Der Gesamtpreis wird sofort aktualisiert (Sticky Footer).  
-* 🔗 **Direktlinks:** Zu jedem Produkt gibt es einen Link zum Preisvergleich/Shop.
+**Das machen wir nicht (Nicht-Ziele):**
 
-**Neue "Ultimate" Features:**
+*   Wir verkaufen keine Hardware (kein Shop).
+    
+*   Es gibt keine Benutzer-Logins oder Datenbanken im Hintergrund.
+    
+*   Wir bauen keine Handy-App (die Webseite funktioniert aber auf dem Handy).
+    
 
-* ✨ **AI System-Check:** Ein Klick prüft die Konfiguration auf Flaschenhälse und Kompatibilität.  
-* 💬 **AI Hardware-Chat:** Der Nutzer kann spezifische Fragen stellen ("Reicht das für 4K Gaming?") und erhält eine Antwort basierend auf seiner aktuellen Auswahl.  
-* 📚 **Experten-Kompendium:** Ein interaktives Akkordeon-Menü mit tiefgehendem Wissen zu DLSS, Raytracing, DDR5-Latenzen und Netzteil-Zertifizierungen.
+Projektinhalte
+--------------
 
-## **Technische Umsetzung**
+*   **Webseite:** Bau der Oberfläche mit HTML, CSS (Bootstrap) und JavaScript.
+    
+*   **Logik:** Programmieren der Hardware-Auswahl und Preis-Rechnung.
+    
+*   **KI:** Verbindung zum Google Gemini Chatbot herstellen.
+    
+*   **Automation (Webscraper):** Ein Programm schreiben, das regelmäßig aktuelle Preise und Daten aus dem Netz zieht, damit wir das nicht von Hand machen müssen.
+    
+*   **Wissen:** Tipps und News für PC-Bauer bereitstellen.
+    
+*   **Hosting:** Die Seite läuft über Cloudflare Pages.
+    
 
-**Struktur (Die 3 Säulen):**
+Was ist wichtig für den Erfolg?
+-------------------------------
 
-1. **HTML5 (index.html):** Semantische Struktur, Bootstrap 5 Grid, Accordion-Elemente.  
-2. **CSS3 (style.css):** "Slate Theme" (Modern Dark/Blue Grey), Responsive Design, Animationen (Pulse-Effekt beim Preis), Custom Gradients.  
-3. **JavaScript (script.js):**  
-   * Logik für Preisberechnung.  
-   * Integration der **Google Gemini API** für intelligente Antworten.  
-   * Asynchrone Datenverarbeitung (Async/Await) für API-Calls.  
-   * Nutzung der marked.js Library zum Rendern von Markdown-Antworten der AI.
+*   Die Google KI muss schnell und zuverlässig antworten.
+    
+*   Die Hardware-Teile müssen wirklich zusammenpassen (keine Fehler in der Logik).
+    
+*   Der Webscraper muss stabil laufen und darf nicht geblockt werden.
+    
+*   Die Seite muss auf dem Handy gut bedienbar sein.
+    
 
-## **Kritische Erfolgsfaktoren**
+Meilensteine & Plan
+-------------------
 
-* **API-Stabilität:** Die Gemini-Schnittstelle muss zuverlässig antworten (implementiert mit Error-Handling).  
-* **Usability:** Die Trennung von Konfigurator und Theorie muss trotz der Informationsfülle übersichtlich bleiben (gelöst durch Tabs und Akkordeons).  
-* **Performance:** Schnelle Ladezeiten trotz externer Libraries (Bootstrap, Marked).
+**Phase 1: Basis & Kernfunktionen (Erledigt)**
 
-## **Meilensteine (Status: Abgeschlossen)**
+*   \[x\] **Grundgerüst:** Die Webseite steht (HTML/CSS/Bootstrap).
+    
+*   \[x\] **Konfigurator:** Man kann Teile auswählen und der Preis wird berechnet.
+    
+*   \[x\] **Presets:** Die Buttons für "Budget", "Mid-Range" und "High-End" funktionieren.
+    
+*   \[x\] **KI-Chat:** Der Google Gemini Bot antwortet und prüft das System.
+    
+*   \[x\] **Inhalt:** Expertenwissen und News sind drin (mit Bildern).
+    
+*   \[x\] **Online:** Die Seite läuft auf Cloudflare.
+    
 
-* \[x\] HTML-Grundstruktur & Bootstrap Integration  
-* \[x\] CSS "Slate" Design & Responsive Layout  
-* \[x\] JavaScript Preisberechnung  
-* \[x\] **NEU:** Integration der Gemini AI (Systemcheck & Chat)  
-* \[x\] **NEU:** Erweiterung der Wissensdatenbank (Experten-Level)  
-* \[x\] **NEU:** Code Refactoring (Trennung in HTML/CSS/JS Dateien)
+**Phase 2: Erweiterung & Webscraper (Geplant)**
 
-*Erstellt am 28\. Oktober 2025 | Version 2.0 (AI Update)*
+*   \[ \] **Webscraper bauen:** Ein Script entwickeln, das Preise und technische Details (VRAM, Takt, Watt) automatisch aktualisiert.
+    
+*   \[ \] **Datenbank:** Die festen Werte im Code durch die automatisch gescrapten Daten ersetzen.
+    
+*   \[ \] **Peripherie:** Einen neuen Bereich für Monitore, Tastaturen und Mäuse hinzufügen.
+    
+*   \[ \] **Watt-Rechner:** Automatische Warnung, wenn das Netzteil zu schwach für die Grafikkarte ist.
+    
+*   \[ \] **Teilen:** Button, um die fertige PC-Liste an Freunde zu schicken.
