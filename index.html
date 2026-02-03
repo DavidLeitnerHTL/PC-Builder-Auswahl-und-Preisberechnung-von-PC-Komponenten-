@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Professional Hardware Systems</title>
+  <title>PC Builder</title>
   
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,6 @@
             <i class="fas fa-microchip fa-2x me-2 text-white"></i>
             <span class="fw-bold" style="font-size: 1.8rem; letter-spacing: -0.5px; margin-left: 10px;">PC Builder</span>
           </div>
-          <span class="text-white-50 small ms-5 ps-2" style="margin-top: -5px;">Professional Hardware Systems</span>
         </a>
         
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -61,18 +60,17 @@
     </div>
   </header>
 
-  <main class="container my-5 flex-grow-1">
+  <!-- Changed: Added pb-5 to create more space at the bottom -->
+  <main class="container my-5 pb-5 flex-grow-1">
     
     <div class="tab-content" id="myTabContent">
 
       <!-- === BUILDER TAB === -->
       <div class="tab-pane fade show active" id="builder-content" role="tabpanel">
         
-        <!-- Standard Bootstrap Row mit ID für Zugriff -->
         <div class="row align-items-stretch" id="main-builder-row">
             
-            <!-- Linke Spalte (Hardware): Standardmäßig col-lg-8 -->
-            <!-- 'transition-col' für die Animation -->
+            <!-- Linke Spalte (Hardware) -->
             <div class="col-lg-8 transition-col" id="hardware-column">
                 
                 <!-- PRESET BUTTONS -->
@@ -238,8 +236,7 @@
                 </div>
             </div>
 
-            <!-- Rechte Spalte (AI): Standardmäßig col-lg-4 -->
-            <!-- 'transition-col' für die Animation -->
+            <!-- Rechte Spalte (AI) -->
             <div class="col-lg-4 transition-col" id="ai-column">
                 <div class="card ai-card mb-4">
                     <div class="card-body">
@@ -780,8 +777,8 @@
         </div>
       </div>
     </div>
-    <!-- Platzhalter damit Sticky Bar nichts verdeckt -->
-    <div style="height: 80px;"></div>
+    <!-- Changed: Increased spacer to 120px to prevent sticky bar overlap -->
+    <div style="height: 120px;"></div>
   </footer>
 
   <!-- Sticky Footer Price Bar -->
