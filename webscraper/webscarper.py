@@ -1,147 +1,126 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import requests
+from bs4 import BeautifulSoup
 import csv
-import urllib.parse
-import time
 import sys
+import time
 
 # =========================
 # KONFIGURATION
 # =========================
 
-GPUS = [
-    "RTX 4060 Ti",
-    "RTX 5070",
-    "RTX 5080",
-    "RX 7900 GRE"
-]
+# Geizhals GPU-Kategorie (Grafikkarten)
+URL = "https://geizhals.at/?cat=gra16_512"
 
-CSV_DATEI = "gpu_preise_idealo.csv"
-QUELLE = "idealo.at"
-MAX_PREISE = 3
-WAIT_TIMEOUT = 10
-PAUSE_SEKUNDEN = 5
+CSV_DATEI = "gpu_preise_geizhals.csv"
 
-# =========================
-# CHROME OPTIONEN
-# =========================
+# Wie viele GPUs maximal gespeichert werden sollen
+MAX_GPU_ANZAHL = 20
 
-def erstelle_chrome_optionen():
-    """Erstellt und gibt Chrome-Optionen zurück."""
-    try:
-        options = Options()
-        options.add_argument("--headless")
-        options.add_argument("--disable-gpu")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--window-size=1920,1080")
-        return options
-    except Exception as e:
-        print("Fehler bei Chrome-Optionen:", e)
-        sys.exit(1)
+# HTTP Header (wichtig, sonst Block oder falsche Seite)
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/120.0.0.0 Safari/537.36"
+    )
+}
 
 # =========================
-# DRIVER STARTEN
+# HTML SEITE LADEN
 # =========================
 
-def starte_driver():
-    """Startet den Chrome WebDriver."""
-    try:
-        options = erstelle_chrome_optionen()
-        driver = webdriver.Chrome(options=options)
-        return driver
-    except Exception as e:
-        print("Fehler beim Starten des WebDrivers:", e)
-        sys.exit(1)
-
-# =========================
-# PREISE HOLEN
-# =========================
-
-def hole_preise(gpu_name, driver):
+def lade_webseite(url):
     """
-    Holt bis zu MAX_PREISE Preise von Idealo.
-    Gibt immer eine Liste mit genau MAX_PREISE Einträgen zurück.
+    Lädt die Webseite und gibt den HTML-Inhalt zurück.
+    Beendet das Programm bei Fehlern.
     """
-    preise = []
-
     try:
-        query = urllib.parse.quote(gpu_name)
-        url = f"https://www.idealo.at/preisvergleich/MainSearchProductCategory.html?q={query}"
-        driver.get(url)
-    except Exception as e:
-        print(f"Fehler beim Laden der Seite für {gpu_name}:", e)
-        return ["Kein Preis gefunden"] * MAX_PREISE
-
-    try:
-        WebDriverWait(driver, WAIT_TIMEOUT).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "span[data-testid='price']"))
-        )
-    except Exception:
-        print(f"Keine Preise sichtbar für {gpu_name}")
-        return ["Kein Preis gefunden"] * MAX_PREISE
-
-    try:
-        preis_elemente = driver.find_elements(By.CSS_SELECTOR, "span[data-testid='price']")
-        for element in preis_elemente[:MAX_PREISE]:
-            preise.append(element.text.strip())
-    except Exception as e:
-        print(f"Fehler beim Auslesen der Preise für {gpu_name}:", e)
-
-    while len(preise) < MAX_PREISE:
-        preise.append("-")
-
-    return preise
-
-# =========================
-# CSV DATEI ERSTELLEN
-# =========================
-
-def schreibe_csv(driver):
-    """Schreibt alle GPU-Preise in eine CSV-Datei."""
-    try:
-        datei = open(CSV_DATEI, "w", newline="", encoding="utf-8")
-    except Exception as e:
-        print("Fehler beim Öffnen der CSV-Datei:", e)
+        response = requests.get(url, headers=HEADERS, timeout=10)
+    except requests.exceptions.RequestException as e:
+        print("Fehler beim HTTP-Request:", e)
         sys.exit(1)
 
-    with datei:
-        writer = csv.writer(datei)
-        writer.writerow(["Grafikkarte", "Preis 1", "Preis 2", "Preis 3", "Quelle"])
+    if response.status_code != 200:
+        print("HTTP Fehlercode:", response.status_code)
+        sys.exit(1)
 
-        for gpu in GPUS:
-            print("Suche:", gpu)
-
-            preise = hole_preise(gpu, driver)
-
-            try:
-                writer.writerow([gpu] + preise + [QUELLE])
-                print("Preise:", preise)
-            except Exception as e:
-                print(f"Fehler beim Schreiben in CSV für {gpu}:", e)
-
-            time.sleep(PAUSE_SEKUNDEN)
+    return response.text
 
 # =========================
-# HAUPTPROGRAMM
+# GPU DATEN PARSEN
+# =========================
+
+def parse_gpus(html):
+    """
+    Extrahiert GPU-Namen und Preise aus dem HTML.
+    Gibt eine Liste von Tupeln zurück: (name, preis)
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    gpus = []
+
+    # Jede GPU steht in einem Artikel-Block
+    artikel = soup.select("article.listview__item")
+
+    if not artikel:
+        print("Keine GPU-Einträge gefunden.")
+        sys.exit(1)
+
+    for item in artikel[:MAX_GPU_ANZAHL]:
+        try:
+            # Name der Grafikkarte
+            name_element = item.select_one("h3 a span")
+            name = name_element.text.strip() if name_element else "Unbekannt"
+
+            # Preis
+            preis_element = item.select_one("span.price")
+            preis = preis_element.text.strip() if preis_element else "Kein Preis"
+
+            gpus.append((name, preis))
+
+        except Exception as e:
+            print("Fehler beim Parsen eines Eintrags:", e)
+
+    return gpus
+
+# =========================
+# CSV SCHREIBEN
+# =========================
+
+def schreibe_csv(gpus):
+    """
+    Schreibt die GPU-Daten in eine CSV-Datei.
+    """
+    try:
+        with open(CSV_DATEI, "w", newline="", encoding="utf-8") as datei:
+            writer = csv.writer(datei)
+            writer.writerow(["Grafikkarte", "Preis", "Quelle"])
+
+            for name, preis in gpus:
+                writer.writerow([name, preis, "geizhals.at"])
+
+    except Exception as e:
+        print("Fehler beim Schreiben der CSV:", e)
+        sys.exit(1)
+
+# =========================
+# MAIN
 # =========================
 
 def main():
-    driver = starte_driver()
+    print("Lade Webseite...")
+    html = lade_webseite(URL)
 
-    try:
-        schreibe_csv(driver)
-    except Exception as e:
-        print("Unerwarteter Fehler:", e)
-    finally:
-        try:
-            driver.quit()
-        except:
-            pass
+    print("Analysiere HTML...")
+    gpus = parse_gpus(html)
 
-    print("Fertig. CSV wurde erstellt.")
+    if not gpus:
+        print("Keine Daten zum Speichern gefunden.")
+        sys.exit(1)
+
+    print("Schreibe CSV...")
+    schreibe_csv(gpus)
+
+    print("Fertig. CSV wurde erstellt:", CSV_DATEI)
 
 # =========================
 # START
