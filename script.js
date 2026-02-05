@@ -209,23 +209,27 @@ async function callWorkerAI(prompt) {
             body: JSON.stringify({ prompt: prompt })
         });
 
-        if (!response.ok) {
-            throw new Error(`Worker responded with status: ${response.status}`);
-        }
-
         const data = await response.json();
-        
-        // Extract the text from the Gemini response structure
+
+        // Handle successful response from Gemini
         if (data.candidates && data.candidates[0].content) {
             return data.candidates[0].content.parts[0].text;
-        } else if (data.error) {
-            return `KI Fehler: ${data.error}`;
+        } 
+        
+        // Handle error objects correctly to avoid "[object Object]"
+        if (data.error) {
+            let errorDetails = data.error;
+            if (typeof data.error === 'object') {
+                // Try to extract message or stringify the object
+                errorDetails = data.error.message || JSON.stringify(data.error);
+            }
+            return `KI Fehler: ${errorDetails}`;
         }
         
         return "Die KI konnte keine Antwort generieren.";
     } catch (error) {
         console.error("Worker Error:", error);
-        return `Fehler: Die Verbindung zum KI-Server ist fehlgeschlagen.`;
+        return `Fehler: Die Verbindung zum KI-Server ist fehlgeschlagen. (${error.message})`;
     }
 }
 
