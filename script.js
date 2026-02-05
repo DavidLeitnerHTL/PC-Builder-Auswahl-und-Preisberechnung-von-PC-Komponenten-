@@ -50,17 +50,14 @@ function resetPresetButtons() {
     const btnMid = document.getElementById('preset-midrange');
     const btnHigh = document.getElementById('preset-highend');
 
-    // Budget: green
     if (btnBudget) {
         btnBudget.classList.remove('btn-success');
         btnBudget.classList.add('btn-outline-success');
     }
-    // Midrange: blue
     if (btnMid) {
         btnMid.classList.remove('btn-primary');
         btnMid.classList.add('btn-outline-primary');
     }
-    // Highend: red
     if (btnHigh) {
         btnHigh.classList.remove('btn-danger');
         btnHigh.classList.add('btn-outline-danger');
@@ -71,7 +68,7 @@ function resetPresetButtons() {
  * Helper function: Sets a specific button to "Active" (filled)
  */
 function activatePresetButton(type) {
-    resetPresetButtons(); // Reset all first
+    resetPresetButtons(); 
     
     let btn;
     let colorClass;
@@ -88,7 +85,6 @@ function activatePresetButton(type) {
     }
 
     if (btn) {
-        // Remove outline, add full color
         btn.classList.remove(`btn-outline-${colorClass}`);
         btn.classList.add(`btn-${colorClass}`);
     }
@@ -101,18 +97,15 @@ function loadPreset(type) {
     const preset = PRESETS[type];
     if (!preset) return;
 
-    isPresetLoading = true; // Set flag: Programmatic change
+    isPresetLoading = true; 
 
-    // Button Highlighting
     activatePresetButton(type);
 
-    // Map HTML IDs to Preset Keys
     const mapping = ['cpu', 'cooler', 'mb', 'gpu', 'ram', 'ssd', 'psu', 'case'];
 
     mapping.forEach(id => {
         const select = document.getElementById(id);
         if (select) {
-            // Find option containing the preset text
             for (let i = 0; i < select.options.length; i++) {
                 if (select.options[i].text.includes(preset[id])) {
                     select.selectedIndex = i;
@@ -123,7 +116,7 @@ function loadPreset(type) {
         }
     });
 
-    isPresetLoading = false; // Done
+    isPresetLoading = false; 
 }
 
 /**
@@ -131,52 +124,55 @@ function loadPreset(type) {
  * Calculates price and updates Amazon link
  */
 function update(select) {
-    // If user clicks (not via preset loading), reset buttons
     if (!isPresetLoading) {
         resetPresetButtons();
     }
 
-  const value = select.value;
-  if (!value.includes(',')) return;
-  
-  const parts = value.split(',');
-  const rawPrice = parseFloat(parts[0]);
-  const preis = isNaN(rawPrice) ? "0.00" : rawPrice.toFixed(2);
-  const link = parts.slice(1).join(','); 
+    const value = select.value;
+    if (!value.includes(',')) return;
+    
+    const parts = value.split(',');
+    const rawPrice = parseFloat(parts[0]);
+    // Ensure 2 decimal places
+    const formattedPrice = isNaN(rawPrice) ? "0.00" : rawPrice.toFixed(2);
+    const link = parts.slice(1).join(','); 
 
-  const row = select.closest('tr');
-  const priceInput = row.querySelector('.price-input');
-  if (priceInput) priceInput.value = preis;
+    const row = select.closest('tr');
+    const priceInput = row.querySelector('.price-input');
+    if (priceInput) priceInput.value = formattedPrice;
 
-  const linkButton = row.querySelector('a');
-  if (linkButton) linkButton.href = link;
+    const linkButton = row.querySelector('a');
+    if (linkButton) linkButton.href = link;
 
-  calcTotal();
+    calcTotal();
 }
 
+/**
+ * Calculates total sum with 2 decimal precision
+ */
 function calcTotal() {
-  let sum = 0;
-  document.querySelectorAll("tbody tr").forEach(row => {
-    const preisEl = row.querySelector('.price-input');
-    if(preisEl) {
-        const preis = parseFloat(preisEl.value) || 0;
-        sum += preis;
+    let sum = 0;
+    document.querySelectorAll("#hardware-table tbody tr").forEach(row => {
+        const priceEl = row.querySelector('.price-input');
+        if(priceEl) {
+            const price = parseFloat(priceEl.value) || 0;
+            sum += price;
+        }
+    });
+    
+    const totalEl = document.getElementById("total");
+    if(totalEl) {
+        if(totalEl.parentElement) {
+            totalEl.parentElement.classList.remove('price-update-anim');
+            void totalEl.offsetWidth; 
+            totalEl.parentElement.classList.add('price-update-anim');
+        }
+        totalEl.textContent = sum.toFixed(2);
     }
-  });
-  
-  const totalEl = document.getElementById("total");
-  if(totalEl) {
-      if(totalEl.parentElement) {
-          totalEl.parentElement.classList.remove('price-update-anim');
-          void totalEl.offsetWidth; 
-          totalEl.parentElement.classList.add('price-update-anim');
-      }
-      totalEl.textContent = sum.toFixed(2);
-  }
 }
 
 // ==========================================
-// AI LOGIC (WITH AUTO-FALLBACK)
+// AI LOGIC
 // ==========================================
 
 function getSelectedComponents() {
@@ -205,26 +201,16 @@ function toggleLoading(show) {
 }
 
 async function callGemini(prompt) {
-    // 1. Check if Key exists
-    if (!apiKey || apiKey.trim() === "") {
-         return "Fehler: API Key fehlt. Bitte überprüfe die config.js Datei.";
-    }
-    
+    // API KEY checks removed as requested
     const cleanKey = apiKey.trim();
 
-    // 2. Updated Model List
     const modelsToTry = [
         "gemini-2.5-flash", 
         "gemini-1.5-flash",
         "gemini-2.0-flash-exp"
     ];
 
-    let lastError = "";
-
-    // Try models sequentially
     for (const model of modelsToTry) {
-        console.log(`Trying AI Model: ${model}...`);
-        
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${cleanKey}`;
         const payload = {
             contents: [{ parts: [{ text: prompt }] }]
@@ -240,38 +226,13 @@ async function callGemini(prompt) {
             if (response.ok) {
                 const data = await response.json();
                 return data.candidates[0].content.parts[0].text;
-            } else {
-                // Parse error
-                let errorDetails = await response.text();
-                try {
-                    const jsonError = JSON.parse(errorDetails);
-                    errorDetails = jsonError.error?.message || JSON.stringify(jsonError);
-                } catch(e) {}
-
-                // If 404, try next model
-                if (response.status === 404) {
-                    console.warn(`Model ${model} not found (404). Trying next...`);
-                    lastError = `Modell ${model} nicht verfügbar.`;
-                    continue; 
-                }
-
-                // If API not enabled
-                if (errorDetails.includes("API has not been used") || errorDetails.includes("Enable it")) {
-                    throw new Error("Die 'Generative Language API' ist in deinem Google Cloud Projekt noch nicht aktiviert.");
-                }
-
-                throw new Error(`API Fehler (${response.status}): ${errorDetails}`);
             }
         } catch (error) {
             console.error(`Error with ${model}:`, error);
-            lastError = error.message;
-            if (!lastError.includes("404") && !lastError.includes("nicht verfügbar")) {
-                return `Es gab ein Problem: ${lastError}`;
-            }
         }
     }
 
-    return `Fehler: Kein KI-Modell konnte erreicht werden.`;
+    return `Fehler: Die KI konnte keine Antwort generieren. Bitte überprüfe die Internetverbindung.`;
 }
 
 // UI Event Listener for Expand/Collapse
@@ -284,26 +245,19 @@ function toggleExpandedView() {
 
     if(!hwCol || !aiCol) return;
 
-    // Standard: hw=col-lg-8, ai=col-lg-4
     const isExpanded = aiCol.classList.contains('col-lg-8');
 
     if (isExpanded) {
-        // Back to normal
         hwCol.classList.remove('col-lg-4');
         hwCol.classList.add('col-lg-8');
-        
         aiCol.classList.remove('col-lg-8');
         aiCol.classList.add('col-lg-4');
-
         resetButtons(false);
     } else {
-        // Expand
         hwCol.classList.remove('col-lg-8');
         hwCol.classList.add('col-lg-4');
-        
         aiCol.classList.remove('col-lg-4');
         aiCol.classList.add('col-lg-8');
-
         resetButtons(true);
     }
 }
@@ -321,27 +275,14 @@ function resetButtons(isExpanded) {
 if(btnResize) btnResize.addEventListener('click', toggleExpandedView);
 if(btnClose) btnClose.addEventListener('click', toggleExpandedView);
 
-
 // 1. Button: Check System
 const btnCheck = document.getElementById('btn-check-build');
 if(btnCheck) {
     btnCheck.addEventListener('click', async () => {
         const components = getSelectedComponents();
-        if(!components) {
-            alert("Bitte wähle zuerst Hardware aus.");
-            return;
-        }
-
-        const prompt = `Du bist ein PC-Hardware-Experte (Stand 2026).
-        Analysiere folgende Konfiguration:
+        const prompt = `Analysiere diese PC-Konfiguration (2026):
         ${components}
-        
-        Prüfe auf:
-        1. Kompatibilität (Sockel AM5/LGA1851, DDR5, PCIe 5.0)
-        2. Flaschenhälse (Passt CPU zur GPU?)
-        3. Netzteil (Genug Watt für RTX 50er Serie?)
-        
-        Antworte auf Deutsch, kurz und in Markdown.`;
+        Prüfe kurz Kompatibilität, Flaschenhälse und ob das Netzteil reicht. Antworte in Markdown.`;
 
         toggleLoading(true);
         const result = await callGemini(prompt);
@@ -356,24 +297,16 @@ if(btnCheck) {
     });
 }
 
-
 // 2. Button: Ask Question
 const btnAsk = document.getElementById('btn-ask-ai');
 if(btnAsk) {
     btnAsk.addEventListener('click', async () => {
         const inputField = document.getElementById('ai-question-input');
         const question = inputField ? inputField.value : "";
-        
         if(!question) return;
 
         const components = getSelectedComponents();
-        const prompt = `Du bist ein PC-Bau Experte (Stand 2026).
-        Konfiguration des Nutzers:
-        ${components}
-        
-        Frage: "${question}"
-        
-        Antworte kurz auf Deutsch.`;
+        const prompt = `PC-Konfig: ${components}\nFrage: ${question}\nAntworte kurz.`;
 
         toggleLoading(true);
         const result = await callGemini(prompt);
@@ -393,11 +326,9 @@ if(btnAsk) {
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialize Dark Mode
     const toggleBtn = document.getElementById('theme-toggle');
-    const htmlElement = document.documentElement; // <html> Tag
+    const htmlElement = document.documentElement;
     
-    // Check local storage or system preference
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
@@ -407,21 +338,17 @@ document.addEventListener('DOMContentLoaded', () => {
         htmlElement.setAttribute('data-theme', 'light');
     }
 
-    // Click Handler
     if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
             const currentTheme = htmlElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            // Set attribute (controls CSS)
             htmlElement.setAttribute('data-theme', newTheme);
-            
-            // Save to local storage
             localStorage.setItem('theme', newTheme);
         });
     }
 
-    // 2. Initialize Preset and Total Calculation
-    loadPreset('midrange');
-    calcTotal();
+    if (document.getElementById('hardware-table')) {
+        loadPreset('midrange');
+        calcTotal();
+    }
 });
