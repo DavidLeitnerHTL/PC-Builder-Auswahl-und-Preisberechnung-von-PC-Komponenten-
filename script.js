@@ -1,9 +1,15 @@
 /**
- * CONFIGURATION
+ * PC Builder 2026 - Main Script
+ * Handles hardware configuration, price calculation, 
+ * dark mode, and AI assistant via Cloudflare Worker Proxy.
  */
-const apiKey = typeof CONFIG !== 'undefined' ? CONFIG.GEMINI_API_KEY : ""; 
 
-// Flag to check if a preset is currently loading
+// ==========================================
+// CONFIGURATION
+// ==========================================
+const WORKER_URL = "https://gemini-proxy.builder-htl.workers.dev";
+
+// Flag to check if a preset is currently loading (prevents button flickering)
 let isPresetLoading = false;
 
 /**
@@ -42,9 +48,10 @@ const PRESETS = {
     }
 };
 
-/**
- * Helper function: Resets all preset buttons to normal state
- */
+// ==========================================
+// UI HELPERS
+// ==========================================
+
 function resetPresetButtons() {
     const btnBudget = document.getElementById('preset-budget');
     const btnMid = document.getElementById('preset-midrange');
@@ -64,9 +71,6 @@ function resetPresetButtons() {
     }
 }
 
-/**
- * Helper function: Sets a specific button to "Active" (filled)
- */
 function activatePresetButton(type) {
     resetPresetButtons(); 
     
@@ -90,15 +94,15 @@ function activatePresetButton(type) {
     }
 }
 
-/**
- * FUNCTION: Load Preset
- */
+// ==========================================
+// CALCULATION & UPDATES
+// ==========================================
+
 function loadPreset(type) {
     const preset = PRESETS[type];
     if (!preset) return;
 
     isPresetLoading = true; 
-
     activatePresetButton(type);
 
     const mapping = ['cpu', 'cooler', 'mb', 'gpu', 'ram', 'ssd', 'psu', 'case'];
@@ -119,10 +123,6 @@ function loadPreset(type) {
     isPresetLoading = false; 
 }
 
-/**
- * FUNCTION: update(select)
- * Calculates price and updates Amazon link
- */
 function update(select) {
     if (!isPresetLoading) {
         resetPresetButtons();
@@ -133,7 +133,6 @@ function update(select) {
     
     const parts = value.split(',');
     const rawPrice = parseFloat(parts[0]);
-    // Ensure 2 decimal places
     const formattedPrice = isNaN(rawPrice) ? "0.00" : rawPrice.toFixed(2);
     const link = parts.slice(1).join(','); 
 
@@ -147,9 +146,6 @@ function update(select) {
     calcTotal();
 }
 
-/**
- * Calculates total sum with 2 decimal precision
- */
 function calcTotal() {
     let sum = 0;
     document.querySelectorAll("#hardware-table tbody tr").forEach(row => {
@@ -172,9 +168,12 @@ function calcTotal() {
 }
 
 // ==========================================
-// AI LOGIC
+// AI LOGIC (WORKER PROXY)
 // ==========================================
 
+/**
+ * Gathers current selection to provide context to the AI
+ */
 function getSelectedComponents() {
     let components = [];
     document.querySelectorAll('#hardware-table tbody tr').forEach(row => {
@@ -188,145 +187,127 @@ function getSelectedComponents() {
     return components.join('\n');
 }
 
+/**
+ * Handles the loading UI state
+ */
 function toggleLoading(show) {
     const loadingEl = document.getElementById('ai-loading');
     const resultWrapper = document.getElementById('ai-result-wrapper');
     
     if(loadingEl) loadingEl.style.display = show ? 'flex' : 'none';
-    if(resultWrapper && !show) resultWrapper.style.display = 'flex'; 
-    
-    if(resultWrapper && show) {
-        resultWrapper.style.display = 'none';
-    }
+    if(resultWrapper) resultWrapper.style.display = show ? 'none' : 'flex'; 
 }
 
-async function callGemini(prompt) {
-    // API KEY checks removed as requested
-    const cleanKey = apiKey.trim();
+/**
+ * Main AI call function that communicates with the Cloudflare Worker
+ */
+async function callWorkerAI(prompt) {
+    try {
+        const response = await fetch(WORKER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: prompt })
+        });
 
-    const modelsToTry = [
-        "gemini-2.5-flash", 
-        "gemini-1.5-flash",
-        "gemini-2.0-flash-exp"
-    ];
-
-    for (const model of modelsToTry) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${cleanKey}`;
-        const payload = {
-            contents: [{ parts: [{ text: prompt }] }]
-        };
-
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
-            }
-        } catch (error) {
-            console.error(`Error with ${model}:`, error);
+        if (!response.ok) {
+            throw new Error(`Worker responded with status: ${response.status}`);
         }
-    }
 
-    return `Fehler: Die KI konnte keine Antwort generieren. Bitte überprüfe die Internetverbindung.`;
-}
-
-// UI Event Listener for Expand/Collapse
-const btnResize = document.getElementById('btn-resize-ai');
-const btnClose = document.getElementById('btn-close-expanded');
-
-function toggleExpandedView() {
-    const hwCol = document.getElementById('hardware-column');
-    const aiCol = document.getElementById('ai-column');
-
-    if(!hwCol || !aiCol) return;
-
-    const isExpanded = aiCol.classList.contains('col-lg-8');
-
-    if (isExpanded) {
-        hwCol.classList.remove('col-lg-4');
-        hwCol.classList.add('col-lg-8');
-        aiCol.classList.remove('col-lg-8');
-        aiCol.classList.add('col-lg-4');
-        resetButtons(false);
-    } else {
-        hwCol.classList.remove('col-lg-8');
-        hwCol.classList.add('col-lg-4');
-        aiCol.classList.remove('col-lg-4');
-        aiCol.classList.add('col-lg-8');
-        resetButtons(true);
-    }
-}
-
-function resetButtons(isExpanded) {
-    if(isExpanded) {
-        if(btnResize) btnResize.style.display = 'none';
-        if(btnClose) btnClose.style.display = 'inline-block';
-    } else {
-        if(btnResize) btnResize.style.display = 'inline-block';
-        if(btnClose) btnClose.style.display = 'none';
-    }
-}
-
-if(btnResize) btnResize.addEventListener('click', toggleExpandedView);
-if(btnClose) btnClose.addEventListener('click', toggleExpandedView);
-
-// 1. Button: Check System
-const btnCheck = document.getElementById('btn-check-build');
-if(btnCheck) {
-    btnCheck.addEventListener('click', async () => {
-        const components = getSelectedComponents();
-        const prompt = `Analysiere diese PC-Konfiguration (2026):
-        ${components}
-        Prüfe kurz Kompatibilität, Flaschenhälse und ob das Netzteil reicht. Antworte in Markdown.`;
-
-        toggleLoading(true);
-        const result = await callGemini(prompt);
-        toggleLoading(false);
+        const data = await response.json();
         
-        const outputBox = document.getElementById('ai-output');
-        if(typeof marked !== 'undefined') {
-            outputBox.innerHTML = marked.parse(result);
-        } else {
-            outputBox.innerHTML = result;
+        // Extract the text from the Gemini response structure
+        if (data.candidates && data.candidates[0].content) {
+            return data.candidates[0].content.parts[0].text;
+        } else if (data.error) {
+            return `KI Fehler: ${data.error}`;
         }
-    });
-}
-
-// 2. Button: Ask Question
-const btnAsk = document.getElementById('btn-ask-ai');
-if(btnAsk) {
-    btnAsk.addEventListener('click', async () => {
-        const inputField = document.getElementById('ai-question-input');
-        const question = inputField ? inputField.value : "";
-        if(!question) return;
-
-        const components = getSelectedComponents();
-        const prompt = `PC-Konfig: ${components}\nFrage: ${question}\nAntworte kurz.`;
-
-        toggleLoading(true);
-        const result = await callGemini(prompt);
-        toggleLoading(false);
         
-        const outputBox = document.getElementById('ai-output');
-        if(typeof marked !== 'undefined') {
-            outputBox.innerHTML = marked.parse(result);
-        } else {
-            outputBox.innerHTML = result;
-        }
-    });
+        return "Die KI konnte keine Antwort generieren.";
+    } catch (error) {
+        console.error("Worker Error:", error);
+        return `Fehler: Die Verbindung zum KI-Server ist fehlgeschlagen.`;
+    }
 }
 
 // ==========================================
-// DARK MODE LOGIC
+// UI EVENT LISTENERS
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    const toggleBtn = document.getElementById('theme-toggle');
+    // 1. Hardware Table Initialization
+    if (document.getElementById('hardware-table')) {
+        loadPreset('midrange');
+        calcTotal();
+    }
+
+    // 2. AI Assistant Buttons
+    const btnCheck = document.getElementById('btn-check-build');
+    const btnAsk = document.getElementById('btn-ask-ai');
+    const outputBox = document.getElementById('ai-output');
+    const inputField = document.getElementById('ai-question-input');
+
+    if(btnCheck) {
+        btnCheck.addEventListener('click', async () => {
+            const components = getSelectedComponents();
+            const prompt = `Analysiere diese PC-Konfiguration (2026):\n${components}\nPrüfe kurz Kompatibilität, Flaschenhälse und ob das Netzteil reicht. Antworte in Markdown.`;
+
+            toggleLoading(true);
+            const result = await callWorkerAI(prompt);
+            toggleLoading(false);
+            
+            if(outputBox) {
+                outputBox.innerHTML = typeof marked !== 'undefined' ? marked.parse(result) : result;
+            }
+        });
+    }
+
+    if(btnAsk) {
+        btnAsk.addEventListener('click', async () => {
+            const question = inputField ? inputField.value : "";
+            if(!question) return;
+
+            const components = getSelectedComponents();
+            const prompt = `Aktuelle PC-Konfig:\n${components}\n\nFrage des Nutzers: ${question}\nAntworte kurz und präzise.`;
+
+            toggleLoading(true);
+            const result = await callWorkerAI(prompt);
+            toggleLoading(false);
+            
+            if(outputBox) {
+                outputBox.innerHTML = typeof marked !== 'undefined' ? marked.parse(result) : result;
+            }
+        });
+    }
+
+    // 3. UI Resizing/Reset
+    const btnResize = document.getElementById('btn-resize-ai');
+    const btnClose = document.getElementById('btn-close-expanded');
+
+    const toggleExpandedView = () => {
+        const hwCol = document.getElementById('hardware-column');
+        const aiCol = document.getElementById('ai-column');
+        if(!hwCol || !aiCol) return;
+
+        const isExpanded = aiCol.classList.contains('col-lg-8');
+
+        if (isExpanded) {
+            hwCol.classList.replace('col-lg-4', 'col-lg-8');
+            aiCol.classList.replace('col-lg-8', 'col-lg-4');
+            if(btnResize) btnResize.style.display = 'inline-block';
+            if(btnClose) btnClose.style.display = 'none';
+        } else {
+            hwCol.classList.replace('col-lg-8', 'col-lg-4');
+            aiCol.classList.replace('col-lg-4', 'col-lg-8');
+            if(btnResize) btnResize.style.display = 'none';
+            if(btnClose) btnClose.style.display = 'inline-block';
+        }
+    };
+
+    if(btnResize) btnResize.addEventListener('click', toggleExpandedView);
+    if(btnClose) btnClose.addEventListener('click', toggleExpandedView);
+
+    // 4. Dark Mode Logic
+    const themeToggle = document.getElementById('theme-toggle');
     const htmlElement = document.documentElement;
     
     const savedTheme = localStorage.getItem('theme');
@@ -334,21 +315,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
         htmlElement.setAttribute('data-theme', 'dark');
-    } else {
-        htmlElement.setAttribute('data-theme', 'light');
     }
 
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
             const currentTheme = htmlElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             htmlElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         });
-    }
-
-    if (document.getElementById('hardware-table')) {
-        loadPreset('midrange');
-        calcTotal();
     }
 });
